@@ -1,0 +1,41 @@
+# ---- 依赖 ----
+node_modules/
+.pnp
+.pnp.js
+
+# ---- Next.js 构建产物 ----
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# ---- 环境变量与密钥（绝不提交）----
+.env
+.env.local
+.env.*.local
+!**/.env.example
+
+# ---- 本地数据（聊天/日记/评估/记忆/向量库）----
+backend/data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+backend/data/backups/
+
+# ---- 日志与临时文件 ----
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.tmp
