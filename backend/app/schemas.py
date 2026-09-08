@@ -49,6 +49,11 @@ class Response(BaseModel):
 class ChatSendRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=2000, description="用户消息")
     conversation_id: Optional[int] = Field(None, description="对话ID，不传则创建新对话")
+    image_data: Optional[str] = Field(
+        None,
+        max_length=15_000_000,
+        description="可选：图片 data URL（data:image/...;base64,...），多模态对话使用",
+    )
 
 # 消息响应
 class MessageResponse(BaseModel):
@@ -74,6 +79,11 @@ class ConversationResponse(BaseModel):
 # 对话历史列表响应
 class ConversationListResponse(BaseModel):
     conversations: List[ConversationResponse]
+
+
+# ========== 深度探索 Agent ==========
+class AgentRunRequest(BaseModel):
+    message: str = Field(..., min_length=1, max_length=2000, description="用户问题")
 
 
 # ========== 评估相关 ==========

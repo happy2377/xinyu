@@ -51,6 +51,8 @@ export default function ChatPage() {
   const [showMemory, setShowMemory] = useState(false);
   const [memories, setMemories] = useState<MemoryItem[]>([]);
   const [loadingMemories, setLoadingMemories] = useState(false);
+  const [imageData, setImageData] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -100,10 +102,12 @@ export default function ChatPage() {
   };
 
   const sendMessage = async () => {
-    if (!input.trim() || loading || isClearing) return; // 清空中禁止发送
+    if ((!input.trim() && !imageData) || loading || isClearing) return; // 清空中禁止发送
 
-    const userMessage = input.trim();
+    const userMessage = input.trim() || '（发来一张图片）';
+    const attachImage = imageData;
     setInput('');
+    setImageData(null);
     setLoading(true);
 
     const tempUserMsg: Message = {
@@ -125,6 +129,7 @@ export default function ChatPage() {
         body: JSON.stringify({
           message: userMessage,
           conversation_id: conversationMeta.conversation_id,
+          image_data: attachImage || undefined,
         }),
       });
 
@@ -208,6 +213,23 @@ export default function ChatPage() {
     }
   };
 
+  const handleImagePick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('请选择图片文件');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('图片请控制在 5MB 以内');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setImageData(String(reader.result));
+    reader.readAsDataURL(file);
+  };
+
   const clearChat = async () => {
     if (!confirm('确定要清空对话吗？')) return;
     
@@ -286,6 +308,12 @@ export default function ChatPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/agent')}
+              className="px-4 py-2 text-sm text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors"
+            >
+              🛠️ 深度分析
+            </button>
             <button
               onClick={() => {
                 if (!showMemory) fetchMemories();
@@ -421,28 +449,64 @@ export default function ChatPage() {
 
       {/* 输入区域 */}
       <div className="bg-white border-t border-gray-200 px-4 py-4">
-        <div className="max-w-4xl mx-auto flex gap-3">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey && !isClearing) {
-                e.preventDefault();
-                sendMessage();
-              }
-            }}
-            placeholder={isClearing ? "清空中，请稍候..." : "说说你的感受..."}
-            disabled={loading || isClearing}
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none disabled:bg-gray-100"
-            rows={3}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={loading || !input.trim() || isClearing}
-            className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-          >
-            {loading ? '发送中...' : isClearing ? '清空中...' : '发送'}
-          </button>
+        <div className="max-w-4xl mx-auto">
+          {imageData && (
+            <div className="flex items-center gap-3 mb-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageData}
+                alt="待发送图片"
+                className="h-16 w-16 object-cover rounded-xl border border-gray-200"
+              />
+              <span className="text-sm text-gray-500 flex-1">
+                心翼会一起“看”这张图，并给出回应
+              </span>
+              <button
+                onClick={() => setImageData(null)}
+                className="text-sm text-gray-400 hover:text-red-500"
+              >
+                ✕ 取消
+              </button>
+            </div>
+          )}
+          <div className="flex gap-3">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImagePick}
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading || isClearing}
+              title="发送图片"
+              className="px-3 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+            >
+              📷
+            </button>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey && !isClearing) {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
+              placeholder={isClearing ? "清空中，请稍候..." : "说说你的感受，或配一张图片..."}
+              disabled={loading || isClearing}
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none disabled:bg-gray-100"
+              rows={3}
+            />
+            <button
+              onClick={sendMessage}
+              disabled={loading || (!input.trim() && !imageData) || isClearing}
+              className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {loading ? '发送中...' : isClearing ? '清空中...' : '发送'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

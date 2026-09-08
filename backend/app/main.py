@@ -15,6 +15,7 @@ from .routers import (
     analytics,
     knowledge,
     memory,
+    agent,
 )
 
 # 加载环境变量
@@ -71,6 +72,7 @@ app.include_router(growth.router)
 app.include_router(analytics.router)
 app.include_router(knowledge.router)
 app.include_router(memory.router)
+app.include_router(agent.router)
 
 # 根路径
 @app.get("/")

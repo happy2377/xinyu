@@ -436,3 +436,15 @@ async def get_cache_stats(
         "cache_hit_ratio": round(total_cached / total_prompt * 100, 2) if total_prompt else 0.0,
         "by_mode": by_mode,
     }
+
+
+@router.get("/weekly-report")
+async def get_weekly_report(
+    days: int = 7,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """二期：综合自动周报（本周数据 + AI 叙事总结）。"""
+    from ..report_service import generate_weekly_report
+
+    return await generate_weekly_report(db, current_user, max(days, 1))

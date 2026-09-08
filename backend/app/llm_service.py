@@ -34,6 +34,9 @@ class LlmService:
         self.base_url = os.getenv("MODELSCOPE_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
         self.chat_model = os.getenv("CHAT_MODEL", DEFAULT_CHAT_MODEL)
         self.embed_model = os.getenv("EMBEDDING_MODEL", DEFAULT_EMBED_MODEL)
+        self.vision_model = os.getenv(
+            "VISION_MODEL", "Qwen/Qwen3-VL-8B-Instruct"
+        )
         self.timeout = float(os.getenv("LLM_TIMEOUT", "90"))
 
     @property
@@ -103,6 +106,61 @@ class LlmService:
             mode=mode,
         )
         return _parse_json(text)
+
+    async def chat_vision(
+        self,
+        image_data_url: str,
+        text: str,
+        max_tokens: int = 500,
+        mode: str = "vision",
+    ) -> str:
+        """多模态：把图片 data URL 与文本一起发给视觉模型（OpenAI 兼容格式）。"""
+        if not self.available:
+            raise RuntimeError("MODELSCOPE_API_KEY 未配置")
+        if not image_data_url.startswith("data:image/"):
+            raise RuntimeError("图片格式错误：需要 data:image/... 的 data URL")
+        payload = {
+            "model": self.vision_model,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": image_data_url},
+                        },
+                        {"type": "text", "text": text[:2000]},
+                    ],
+                }
+            ],
+            "stream": False,
+            "max_tokens": max_tokens,
+            "temperature": 0.3,
+        }
+        last_error: Exception | None = None
+        for attempt in range(3):
+            try:
+                async with httpx.AsyncClient(timeout=self.timeout) as client:
+                    resp = await client.post(
+                        f"{self.base_url}/chat/completions",
+                        headers=self._headers(),
+                        json=payload,
+                    )
+                    if resp.status_code != 200:
+                        raise RuntimeError(
+                            f"视觉模型调用失败 ({resp.status_code}): {resp.text[:300]}"
+                        )
+                    data = resp.json()
+                    record_llm_call(self.vision_model, data.get("usage"), mode)
+                    content = data["choices"][0]["message"].get("content", "")
+                    if not content:
+                        raise RuntimeError("视觉模型未返回内容")
+                    return content
+            except Exception as e:
+                last_error = e
+                logger.warning("视觉模型第 %d 次失败: %s", attempt + 1, e)
+                await asyncio.sleep(2 + attempt * 3)
+        raise RuntimeError(f"视觉模型重试后仍失败: {last_error}")
 
     async def embed_texts(self, texts: List[str]) -> List[List[float]]:
         """批量文本向量化。"""

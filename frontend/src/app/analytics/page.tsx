@@ -54,6 +54,18 @@ interface OutcomeData {
   summary_text: string;
 }
 
+interface WeeklyReport {
+  days: number;
+  narrative: string;
+  disclaimer: string;
+  stats: {
+    diary: { count: number; emotion_days: number; top_emotions: Array<{ emotion: string; count: number }> };
+    assessments: { total: number };
+    training: { count: number; minutes: number };
+    new_memories_count: number;
+  };
+}
+
 const EMOTION_COLORS: Record<string, string> = {
   '快乐': '#FEF3C7',
   '兴奋': '#FED7AA',
@@ -78,6 +90,8 @@ export default function AnalyticsPage() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [userCreatedYear, setUserCreatedYear] = useState<number>(new Date().getFullYear());
   const [outcome, setOutcome] = useState<OutcomeData | null>(null);
+  const [weekly, setWeekly] = useState<WeeklyReport | null>(null);
+  const [weeklyLoading, setWeeklyLoading] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -167,6 +181,27 @@ export default function AnalyticsPage() {
       console.error('获取数据失败:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const generateWeeklyReport = async () => {
+    const token = localStorage.getItem('access_token');
+    setWeeklyLoading(true);
+    try {
+      const res = await fetch(
+        'http://127.0.0.1:8000/api/analytics/weekly-report?days=7',
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      if (res.ok) {
+        setWeekly(await res.json());
+      } else {
+        alert('生成失败，请稍后重试');
+      }
+    } catch (error) {
+      console.error('生成周报失败:', error);
+      alert('网络错误，请重试');
+    } finally {
+      setWeeklyLoading(false);
     }
   };
 
@@ -371,6 +406,52 @@ export default function AnalyticsPage() {
             </p>
           </div>
         )}
+
+        {/* 综合周报（二期） */}
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-800">🗓️ 我的周报</h2>
+              <p className="text-sm text-gray-500 mt-1">
+                汇总近 7 天日记、量表、训练与记忆，生成一篇带 AI 解读的回顾
+              </p>
+            </div>
+            <button
+              onClick={generateWeeklyReport}
+              disabled={weeklyLoading}
+              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+            >
+              {weeklyLoading ? '生成中…' : weekly ? '🔄 重新生成' : '✨ 生成本周报告'}
+            </button>
+          </div>
+
+          {weekly ? (
+            <div>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5">
+                {weekly.narrative}
+              </p>
+              <div className="flex flex-wrap gap-3 mt-4 text-sm text-gray-600">
+                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
+                  📝 日记 {weekly.stats.diary.count} 篇
+                </span>
+                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
+                  📋 量表 {weekly.stats.assessments.total} 次
+                </span>
+                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
+                  🏃 训练 {weekly.stats.training.count} 次 · {weekly.stats.training.minutes} 分钟
+                </span>
+                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
+                  🧠 新记忆 {weekly.stats.new_memories_count} 条
+                </span>
+              </div>
+              <p className="text-xs text-gray-400 mt-3">{weekly.disclaimer}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400 bg-gray-50 rounded-xl p-5">
+              还没有生成过周报。点右上角按钮，心翼会把这一周的数据整理成一段温柔可读的回顾。
+            </p>
+          )}
+        </div>
 
         {/* 年度核心指标 */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
