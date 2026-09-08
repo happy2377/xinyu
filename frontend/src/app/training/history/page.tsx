@@ -13,6 +13,15 @@ interface TrainingRecord {
   feedback?: {
     rating?: number;
     comment?: string;
+    ai_summary?: string;
+    mood_after?: number;
+    step_logs?: Array<{
+      step_index: number;
+      kind?: string;
+      seconds_spent?: number;
+      input?: string;
+      value?: number | null;
+    }>;
   };
 }
 
@@ -290,6 +299,24 @@ export default function TrainingHistoryPage() {
                           {record.feedback.comment}
                         </p>
                       )}
+                      {record.feedback.ai_summary && (
+                        <div className="mt-3 bg-purple-50 rounded-lg p-3">
+                          <p className="text-xs font-semibold text-purple-700 mb-1">
+                            ✨ AI 总结
+                          </p>
+                          <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                            {record.feedback.ai_summary}
+                          </p>
+                        </div>
+                      )}
+                      {record.feedback.step_logs &&
+                        record.feedback.step_logs.length > 0 && (
+                          <p className="mt-2 text-xs text-gray-400">
+                            完成 {record.feedback.step_logs.length} 个步骤
+                            {record.feedback.mood_after !== undefined &&
+                              ` · 训练后情绪 ${record.feedback.mood_after}/10`}
+                          </p>
+                        )}
                     </div>
                   )}
                 </div>

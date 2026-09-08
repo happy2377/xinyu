@@ -5,8 +5,14 @@ import asyncio
 from typing import Union, AsyncGenerator
 import ollama
 import httpx
+from dotenv import load_dotenv
+
+from .llm_service import record_llm_call
 
 logger = logging.getLogger(__name__)
+
+# 与 llm_service 一致：导入时加载 .env，避免 import 顺序导致 API Key 读取为空
+load_dotenv()
 
 class LocalModelService:
     """本地模型服务（Ollama）"""
@@ -15,12 +21,15 @@ class LocalModelService:
         self.model = model
         self.client = ollama.AsyncClient()
     
-    async def generate_with_prompt(self, system_prompt, user_input, conversation_history, stream=True):
+    async def generate_with_prompt(
+        self, system_prompt, user_input, conversation_history, stream=True, context=""
+    ):
         """生成响应"""
         # 构建消息列表
         messages = [{"role": "system", "content": system_prompt}]
         messages.extend(conversation_history)
-        messages.append({"role": "user", "content": user_input})
+        user_content = f"{context}\n\n{user_input}" if context else user_input
+        messages.append({"role": "user", "content": user_content})
         
         try:
             if stream:
@@ -66,7 +75,8 @@ class RemoteModelService:
         system_prompt: str,
         user_input: str,
         conversation_history: list,
-        stream: bool = True
+        stream: bool = True,
+        context: str = "",
     ) -> AsyncGenerator[str, None]:
         """
         使用系统提示词生成响应
@@ -80,10 +90,12 @@ class RemoteModelService:
             yield "错误：云端模型未配置有效的 API Key。请先在 backend/.env 中填写 MODELSCOPE_API_KEY 后重启服务。"
             return
         
-        # 构建消息列表
+        # 构建消息列表：动态上下文（记忆/资料摘录）追加到本轮用户消息之前，
+        # 保证 system + 历史前缀不变，从而尽可能命中 prompt cache
         messages = [{"role": "system", "content": system_prompt}]
         messages.extend(conversation_history)
-        messages.append({"role": "user", "content": user_input})
+        user_content = f"{context}\n\n{user_input}" if context else user_input
+        messages.append({"role": "user", "content": user_content})
         
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -97,6 +109,9 @@ class RemoteModelService:
             "temperature": 0.7,
             "top_p": 0.8
         }
+        if stream:
+            # 尽量获取 usage（cached_tokens 统计）；平台不支持时自动去掉后重试
+            payload["stream_options"] = {"include_usage": True}
         
         last_error = None
         for attempt in range(4):
@@ -116,6 +131,17 @@ class RemoteModelService:
                                     f"云端模型调用失败 ({response.status_code}): "
                                     f"{error_text.decode()}"
                                 )
+                                if (
+                                    response.status_code == 400
+                                    and "stream_options" in payload
+                                    and attempt == 0
+                                ):
+                                    logger.warning(
+                                        "接口不支持 stream_options，去掉后重试: %s",
+                                        error_text.decode()[:200],
+                                    )
+                                    payload.pop("stream_options", None)
+                                    continue
                                 if response.status_code == 429 and attempt < 3:
                                     logger.warning("触发限流，第 %d 次重试", attempt + 1)
                                     await asyncio.sleep(5 + attempt * 8)
@@ -124,6 +150,7 @@ class RemoteModelService:
                                 yield f"错误：{error_msg}"
                                 return
 
+                            recorded_usage = False
                             async for line in response.aiter_lines():
                                 if line.startswith("data:"):
                                     data_str = line[5:].strip()
@@ -132,6 +159,13 @@ class RemoteModelService:
                                     try:
                                         import json
                                         data = json.loads(data_str)
+                                        if "usage" in data and not recorded_usage:
+                                            record_llm_call(
+                                                self.model_name,
+                                                data["usage"],
+                                                "chat_stream",
+                                            )
+                                            recorded_usage = True
                                         if "choices" in data and len(data["choices"]) > 0:
                                             delta = data["choices"][0].get("delta", {})
                                             content = delta.get("content", "")
@@ -151,6 +185,17 @@ class RemoteModelService:
                                 f"云端模型调用失败 ({response.status_code}): "
                                 f"{response.text}"
                             )
+                            if (
+                                response.status_code == 400
+                                and "stream_options" in payload
+                                and attempt == 0
+                            ):
+                                logger.warning(
+                                    "接口不支持 stream_options，去掉后重试: %s",
+                                    response.text[:200],
+                                )
+                                payload.pop("stream_options", None)
+                                continue
                             if response.status_code == 429 and attempt < 3:
                                 logger.warning("触发限流，第 %d 次重试", attempt + 1)
                                 await asyncio.sleep(5 + attempt * 8)
@@ -159,6 +204,9 @@ class RemoteModelService:
                             yield f"错误：{error_msg}"
                             return
                         result = response.json()
+                        record_llm_call(
+                            self.model_name, result.get("usage"), "chat"
+                        )
                         if "choices" in result and len(result["choices"]) > 0:
                             content = result["choices"][0]["message"]["content"]
                             yield content

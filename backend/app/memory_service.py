@@ -73,6 +73,7 @@ async def extract_facts_from_text(
             ],
             temperature=0.1,
             max_tokens=1500,
+            mode="memory_extract",
         )
     except Exception as e:
         logger.warning("记忆抽取失败（跳过）: %s", e)
@@ -251,7 +252,8 @@ async def retrieve_memories(
             score += EMOTION_WEIGHT * (fact.emotional_weight / 10.0)
         scored.append((score, fact))
 
-    scored.sort(key=lambda x: x[0], reverse=True)
+    # 按分数倒序、id 升序排序，保证同一查询结果字节稳定（利于 prompt cache）
+    scored.sort(key=lambda x: (-x[0], x[1].id))
     picked = scored[:top_k]
 
     result = []

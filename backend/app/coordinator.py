@@ -9,6 +9,7 @@ from .phase_manager import PhaseManager
 from .model_router import ModelRouter
 from .knowledge_service import hybrid_search
 from .memory_service import extract_from_turn, retrieve_memories
+from .safety import CRISIS_RESPONSE, PROMPT_CORE
 
 logger = logging.getLogger(__name__)
 
@@ -21,17 +22,8 @@ class MultiAgentCoordinator:
         self.phase_manager = PhaseManager()
         self.model_router = ModelRouter()
         
-        # 危机应对话术
-        self.crisis_response = """我注意到你现在可能很痛苦，这让我很担心。请相信，这些感受是可以改变的。
-
-🆘 紧急求助方式：
-- 心理危机热线：400-161-9995（24小时）
-- 全国心理援助热线：010-82951332
-- 生命热线：400-821-1215
-
-如果情况紧急，请立即拨打 110 或前往最近的医院急诊科。
-
-你的生命很重要，很多人关心你。专业的帮助能让情况变得更好，请不要独自承受。"""
+        # 危机应对话术（与训练引导共用同一份常量）
+        self.crisis_response = CRISIS_RESPONSE
     
     async def process_message(
         self,
@@ -53,7 +45,10 @@ class MultiAgentCoordinator:
             user, db, conversation_id
         )
         
-        # 步骤2：保存用户消息
+        # 步骤2：先取历史（不含本轮，避免最终消息重复当前输入）
+        conversation_history = self._get_conversation_history(conversation, db)
+
+        # 步骤3：保存用户消息
         user_message = Message(
             conversation_id=conversation.id,
             role="user",
@@ -65,10 +60,7 @@ class MultiAgentCoordinator:
         # 更新轮次
         conversation.round_count += 1
         db.commit()
-        
-        # 步骤3：获取对话历史
-        conversation_history = self._get_conversation_history(conversation, db)
-        
+
         # 步骤4：执行感知规划（双层判断 - 使用本地模型）
         perception_result = await self.perception_module.execute(
             user_input, conversation_history
@@ -148,7 +140,7 @@ class MultiAgentCoordinator:
             "model_used": model_name
         }
         
-        # 根据阶段构造系统提示词
+        # 根据阶段构造静态系统提示词（禁止拼入记忆/RAG 等动态内容）
         phase_prompts = {
             "emotional": self.agent.phase_prompts["emotional"],
             "rational": self.agent.phase_prompts["rational"],
@@ -158,6 +150,8 @@ class MultiAgentCoordinator:
         if knowledge_intent:
             # 知识性问题：切换到“资料助手”模式，避免被共情人格带偏
             system_prompt = (
+                PROMPT_CORE
+                + "\n\n"
                 "用户正在询问知识性问题。请切换到资料助手模式，并严格按下述结构回答：\n"
                 "1. 第一段：用 1-2 句话直接、简洁地回答用户问题，结论先行；\n"
                 "2. 若资料中包含多条可操作信息，输出 “### 要点” 无序列表；\n"
@@ -169,43 +163,55 @@ class MultiAgentCoordinator:
                 "7. 不要长篇共情或堆砌安慰，主体必须是事实性内容。"
             )
         else:
-            system_prompt = phase_prompts.get(
-                conversation.phase, self.agent.phase_prompts["emotional"]
+            system_prompt = (
+                PROMPT_CORE
+                + "\n\n"
+                + phase_prompts.get(
+                    conversation.phase, self.agent.phase_prompts["emotional"]
+                )
             )
 
+        # 动态上下文统一放到本轮消息末尾（保证 system + 历史前缀字节稳定，利于 prompt cache）
+        context_parts = []
         if memories and not knowledge_intent:
             memory_lines = "\n".join(
                 f"- [{m['created_at'][:10]} · {m['type']}] {m['fact']}"
                 for m in memories
             )
-            system_prompt += (
-                "\n\n【长期记忆（仅供参考，可能已过时）】\n"
+            context_parts.append(
+                "【长期记忆（仅供参考，可能已过时）】\n"
                 + memory_lines
                 + "\n若与当前话题相关可自然引用，不要编造记忆中没有的细节。"
             )
 
-        if rag_hits:
-            rag_sections = "\n\n".join(
-                f"[{i+1}] 《{h['title']}》\n{h['content'][:900]}"
-                for i, h in enumerate(rag_hits)
-            )
-            system_prompt += (
-                "\n\n【资料库摘录】（必须基于此回答并标注来源）\n"
-                + rag_sections
-            )
-        elif rag_no_hit:
-            system_prompt += (
-                "\n\n当前资料库未命中与问题相关的内容。"
-                "请如实告知用户“资料库中暂时没有相关内容”，"
-                "并建议换个问法，不要编造答案。"
-            )
-        
+        if knowledge_intent:
+            if rag_hits:
+                # 按文档与分块排序，保证同一检索结果集下输出字节稳定
+                rag_sections = "\n\n".join(
+                    f"[{i+1}] 《{h['title']}》\n{h['content'][:900]}"
+                    for i, h in enumerate(
+                        sorted(rag_hits, key=lambda x: (x["doc_id"], x["chunk_id"]))
+                    )
+                )
+                context_parts.append(
+                    "【资料库摘录】（必须基于此回答并标注来源）\n" + rag_sections
+                )
+            elif rag_no_hit:
+                context_parts.append(
+                    "当前资料库未命中与问题相关的内容。"
+                    "请如实告知用户“资料库中暂时没有相关内容”，"
+                    "并建议换个问法，不要编造答案。"
+                )
+
+        context_block = "\n\n".join(context_parts)
+
         full_response = ""
         async for chunk in model_service.generate_with_prompt(
             system_prompt,
             user_input,
             conversation_history,
-            stream=True
+            stream=True,
+            context=context_block,
         ):
             full_response += chunk
             yield {

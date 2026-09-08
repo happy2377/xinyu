@@ -125,6 +125,7 @@ class PerceptionPlanningModule:
                 [{"role": "user", "content": prompt}],
                 temperature=0.1,
                 max_tokens=600,
+                mode="perception",
             )
             intent = str(data.get("intent", "emotional")).strip().lower()
             if intent not in {"knowledge", "emotional", "planning", "chit_chat"}:

@@ -12,8 +12,14 @@ import asyncio
 from typing import Any, Dict, List
 
 import httpx
+from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
+
+from .database import SessionLocal
+
+# 模块导入即加载 .env（uvicorn 从 backend 目录启动；也兼容被主模块提前 import 的情况）
+load_dotenv()
 
 DEFAULT_BASE_URL = "https://api-inference.modelscope.cn/v1"
 DEFAULT_CHAT_MODEL = "Qwen/Qwen3-Next-80B-A3B-Instruct"
@@ -46,6 +52,7 @@ class LlmService:
         temperature: float = 0.7,
         max_tokens: int = 1500,
         model: str | None = None,
+        mode: str = "generic",
     ) -> str:
         """非流式文本补全，返回完整内容。"""
         if not self.available:
@@ -71,6 +78,7 @@ class LlmService:
                             f"LLM 调用失败 ({resp.status_code}): {resp.text[:300]}"
                         )
                     data = resp.json()
+                    record_llm_call(model or self.chat_model, data.get("usage"), mode)
                     return data["choices"][0]["message"]["content"]
             except Exception as e:
                 last_error = e
@@ -84,6 +92,7 @@ class LlmService:
         temperature: float = 0.1,
         max_tokens: int = 1500,
         model: str | None = None,
+        mode: str = "generic",
     ) -> Dict[str, Any]:
         """要求模型输出 JSON 并尽力解析。"""
         text = await self.chat(
@@ -91,6 +100,7 @@ class LlmService:
             temperature=temperature,
             max_tokens=max_tokens,
             model=model,
+            mode=mode,
         )
         return _parse_json(text)
 
@@ -154,6 +164,37 @@ def _parse_json(text: str) -> Dict[str, Any]:
                 pass
     logger.warning("模型 JSON 解析失败，返回空对象: %s", text[:200])
     return {}
+
+
+def record_llm_call(model: str, usage: dict | None, mode: str = "generic") -> None:
+    """尽力写入一次 LLM 用量统计；失败只记日志，绝不阻断主流程。"""
+    if not usage or not isinstance(usage, dict):
+        return
+    try:
+        from .models import LlmCallStats
+
+        prompt = int(usage.get("prompt_tokens") or 0)
+        details = usage.get("prompt_tokens_details") or {}
+        cached = 0
+        if isinstance(details, dict):
+            cached = int(details.get("cached_tokens") or 0)
+        total = int(usage.get("total_tokens") or 0)
+        db = SessionLocal()
+        try:
+            db.add(
+                LlmCallStats(
+                    mode=mode,
+                    model=(model or "")[:100],
+                    prompt_tokens=prompt,
+                    cached_tokens=cached,
+                    total_tokens=total,
+                )
+            )
+            db.commit()
+        finally:
+            db.close()
+    except Exception as e:  # pragma: no cover - 统计失败不应影响对话
+        logger.warning("LLM 调用统计写入失败（跳过）: %s", e)
 
 
 # 全局共享实例

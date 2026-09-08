@@ -358,3 +358,19 @@ class OutcomeSnapshot(Base):
 
     def __repr__(self):
         return f"<OutcomeSnapshot(id={self.id}, user={self.user_id}, scale='{self.scale_name}', week='{self.week_start}')>"
+
+
+class LlmCallStats(Base):
+    """LLM 调用用量统计（用于 prompt cache 命中率观测）"""
+    __tablename__ = "llm_call_stats"
+
+    id = Column(Integer, primary_key=True, index=True)
+    mode = Column(String(50), default="generic", index=True)
+    model = Column(String(100), nullable=True)  # 实际使用的模型
+    prompt_tokens = Column(Integer, default=0)  # 本次请求总输入 token
+    cached_tokens = Column(Integer, default=0)  # 命中缓存的 token 数（平台返回 0 表示不可用/未命中）
+    total_tokens = Column(Integer, default=0)  # 总 token（含输出）
+    created_at = Column(DateTime, default=datetime.now, index=True)
+
+    def __repr__(self):
+        return f"<LlmCallStats(id={self.id}, mode='{self.mode}', cached={self.cached_tokens}/{self.prompt_tokens})>"

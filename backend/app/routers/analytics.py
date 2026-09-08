@@ -12,6 +12,7 @@ from ..models import (
     AssessmentTemplate,
     TrainingRecord,
     GrowthRecord,
+    LlmCallStats,
 )
 from ..auth import get_current_user
 
@@ -396,4 +397,42 @@ async def get_outcome_metrics(
         "scales": scale_results,
         "emotion": emotion,
         "summary_text": summary_text,
+    }
+
+
+@router.get("/cache-stats")
+async def get_cache_stats(
+    days: int = 7,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """LLM Prompt Cache 观测：总调用、缓存命中 token 与命中率（按模式分组）。"""
+    start_dt = datetime.now() - timedelta(days=max(days, 1))
+    rows = (
+        db.query(LlmCallStats)
+        .filter(LlmCallStats.created_at >= start_dt)
+        .order_by(LlmCallStats.created_at.desc())
+        .all()
+    )
+
+    by_mode: Dict[str, Dict[str, int]] = {}
+    for row in rows:
+        bucket = by_mode.setdefault(
+            row.mode or "generic",
+            {"calls": 0, "prompt_tokens": 0, "cached_tokens": 0, "total_tokens": 0},
+        )
+        bucket["calls"] += 1
+        bucket["prompt_tokens"] += row.prompt_tokens or 0
+        bucket["cached_tokens"] += row.cached_tokens or 0
+        bucket["total_tokens"] += row.total_tokens or 0
+
+    total_prompt = sum(b["prompt_tokens"] for b in by_mode.values())
+    total_cached = sum(b["cached_tokens"] for b in by_mode.values())
+    return {
+        "days": days,
+        "total_calls": len(rows),
+        "total_prompt_tokens": total_prompt,
+        "total_cached_tokens": total_cached,
+        "cache_hit_ratio": round(total_cached / total_prompt * 100, 2) if total_prompt else 0.0,
+        "by_mode": by_mode,
     }

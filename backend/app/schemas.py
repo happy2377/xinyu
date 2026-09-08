@@ -178,6 +178,16 @@ class TrainingCompleteRequest(BaseModel):
     training_id: int = Field(..., description="训练模板ID")
     duration: int = Field(..., description="实际训练时长（分钟）")
     feedback: Optional[dict] = Field(None, description="训练反馈（评分、感受等）")
+    step_logs: Optional[List[dict]] = Field(None, description="每步执行日志（耗时/输入/评分）")
+    ai_summary: Optional[str] = Field(None, description="AI 训练总结")
+
+# 训练 AI 引导请求
+class TrainingAssistRequest(BaseModel):
+    training_id: int = Field(..., description="训练模板ID")
+    stage: str = Field(..., description="intro / step_feedback / summary")
+    step_index: Optional[int] = Field(None, description="当前步骤下标（step_feedback 时使用）")
+    user_input: Optional[str] = Field(None, description="用户本步输入")
+    step_logs: Optional[List[dict]] = Field(None, description="本场已完成步骤日志")
 
 # 训练记录响应
 class TrainingRecordResponse(BaseModel):
