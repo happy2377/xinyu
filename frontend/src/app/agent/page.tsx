@@ -70,8 +70,8 @@ export default function AgentPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+    <div className="flex flex-col h-screen clay-bg">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -81,7 +81,7 @@ export default function AgentPage() {
               ← 返回
             </button>
             <span className="text-2xl">🛠️</span>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
               深度探索 Agent
             </span>
           </div>
@@ -128,7 +128,7 @@ export default function AgentPage() {
               <div
                 className={`max-w-[82%] rounded-2xl px-6 py-4 ${
                   msg.role === 'user'
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
+                    ? 'clay-btn clay-blue text-white'
                     : msg.crisis
                       ? 'bg-red-50 border-2 border-red-300 text-red-800'
                       : 'bg-white shadow-md text-gray-800'
@@ -191,7 +191,7 @@ export default function AgentPage() {
           <button
             onClick={() => run()}
             disabled={loading || !input.trim()}
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50"
+            className="px-8 py-3 clay-btn clay-blue text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50"
           >
             {loading ? '分析中…' : '发送'}
           </button>

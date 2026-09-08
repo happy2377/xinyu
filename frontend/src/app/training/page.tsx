@@ -104,9 +104,9 @@ export default function TrainingPage() {
   const types = Object.keys(TRAINING_TYPES);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -117,7 +117,7 @@ export default function TrainingPage() {
             </button>
             <div className="flex items-center gap-2">
               <span className="text-2xl">💪</span>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
                 智能训练指导
               </span>
             </div>
@@ -148,7 +148,7 @@ export default function TrainingPage() {
             onClick={() => setSelectedType(null)}
             className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
               selectedType === null
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                ? 'clay-btn clay-blue text-white shadow-lg'
                 : 'bg-white text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -160,7 +160,7 @@ export default function TrainingPage() {
               onClick={() => setSelectedType(type)}
               className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedType === type
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  ? 'clay-btn clay-blue text-white shadow-lg'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >

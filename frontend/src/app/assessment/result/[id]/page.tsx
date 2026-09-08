@@ -100,7 +100,7 @@ export default function AssessmentResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
           <p className="mt-4 text-gray-600">加载中...</p>
@@ -116,9 +116,9 @@ export default function AssessmentResultPage() {
   const levelConfig = RISK_LEVEL_CONFIG[result.risk_level] || RISK_LEVEL_CONFIG['正常'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <button
             onClick={() => router.push('/assessment')}
@@ -152,7 +152,7 @@ export default function AssessmentResultPage() {
           <div className="flex items-center justify-center gap-8 mb-8">
             {/* 总分 */}
             <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+              <div className="text-5xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent mb-2">
                 {result.total_score}
               </div>
               <p className="text-sm text-gray-600">总分</p>
@@ -274,7 +274,7 @@ export default function AssessmentResultPage() {
           </button>
           <button
             onClick={() => router.push('/assessment')}
-            className="flex-1 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg transition-all"
+            className="flex-1 py-4 rounded-xl font-semibold text-white clay-btn clay-lavender hover:shadow-lg transition-all"
           >
             尝试其他评估
           </button>

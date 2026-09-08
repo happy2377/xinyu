@@ -74,9 +74,9 @@ export default function AssessmentPage() {
   const categories = Object.keys(CATEGORY_INFO);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -87,7 +87,7 @@ export default function AssessmentPage() {
             </button>
             <div className="flex items-center gap-2">
               <span className="text-2xl">📋</span>
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
                 心理评估
               </span>
             </div>
@@ -118,7 +118,7 @@ export default function AssessmentPage() {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
               selectedCategory === null
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                ? 'clay-btn clay-lavender text-white shadow-lg'
                 : 'bg-white text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -130,7 +130,7 @@ export default function AssessmentPage() {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'clay-btn clay-lavender text-white shadow-lg'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >

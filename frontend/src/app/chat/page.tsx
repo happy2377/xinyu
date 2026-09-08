@@ -289,9 +289,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+    <div className="flex flex-col h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -302,7 +302,7 @@ export default function ChatPage() {
             </button>
           <div className="flex items-center gap-2">
               <span className="text-2xl">🤖</span>
-              <span className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
                 智能对话
               </span>
             </div>
@@ -424,7 +424,7 @@ export default function ChatPage() {
                 <div
                   className={`max-w-[70%] rounded-2xl px-6 py-4 ${
                     msg.role === 'user'
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
+                      ? 'clay-btn clay-pink text-white'
                       : 'bg-white shadow-md text-gray-800'
                   }`}
                 >
@@ -502,7 +502,7 @@ export default function ChatPage() {
             <button
               onClick={sendMessage}
               disabled={loading || (!input.trim() && !imageData) || isClearing}
-              className="px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="px-8 py-3 clay-btn clay-pink text-white rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? '发送中...' : isClearing ? '清空中...' : '发送'}
             </button>

@@ -206,7 +206,7 @@ export default function GrowthPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-xl text-gray-600">加载中...</div>
       </div>
     );
@@ -227,7 +227,7 @@ export default function GrowthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 p-6">
+    <div className="min-h-screen clay-bg p-6">
       <div className="max-w-7xl mx-auto">
         {/* 顶部导航栏 */}
         <div className="flex items-center justify-between mb-8">
@@ -398,7 +398,7 @@ export default function GrowthPage() {
                 key={achievement.type}
                 className={`relative p-6 rounded-xl text-center transition-all ${
                   achievement.achieved
-                    ? 'bg-gradient-to-br from-yellow-100 to-orange-100 border-2 border-yellow-400'
+                    ? 'clay-bg border-2 border-yellow-400'
                     : 'bg-gray-100 border-2 border-gray-300 opacity-50'
                 }`}
               >

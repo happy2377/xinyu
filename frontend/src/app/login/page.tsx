@@ -78,7 +78,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 flex items-center justify-center px-4">
+    <div className="min-h-screen clay-bg flex items-center justify-center px-4">
       {/* 返回首页按钮 */}
       <button
         onClick={() => router.push('/')}
@@ -95,7 +95,7 @@ export default function LoginPage() {
           <div className="text-center mb-8">
             <div className="flex justify-center items-center gap-2 mb-4">
               <span className="text-4xl">💕</span>
-              <span className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
                 心翼 Xinyi
               </span>
             </div>
@@ -114,7 +114,7 @@ export default function LoginPage() {
               }}
               className={`flex-1 py-2 rounded-lg font-semibold transition-all ${
                 isLogin
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md'
+                  ? 'clay-btn clay-pink text-white shadow-md'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -128,7 +128,7 @@ export default function LoginPage() {
               }}
               className={`flex-1 py-2 rounded-lg font-semibold transition-all ${
                 !isLogin
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-md'
+                  ? 'clay-btn clay-pink text-white shadow-md'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -199,7 +199,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full py-3 clay-btn clay-pink text-white font-semibold rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? '处理中...' : isLogin ? '登录' : '注册'}
             </button>

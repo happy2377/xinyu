@@ -135,7 +135,7 @@ export default function AssessmentTestPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-purple-600 border-t-transparent"></div>
           <p className="mt-4 text-gray-600">加载中...</p>
@@ -153,9 +153,9 @@ export default function AssessmentTestPage() {
   const answeredCount = answers.filter((a) => a !== -1).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <button
             onClick={() => {
@@ -182,7 +182,7 @@ export default function AssessmentTestPage() {
         <div className="max-w-4xl mx-auto">
           <div className="h-2 bg-gray-200">
             <div
-              className="h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300"
+              className="h-full clay-btn clay-lavender transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -215,7 +215,7 @@ export default function AssessmentTestPage() {
                 onClick={() => handleAnswer(option.value)}
                 className={`w-full p-4 rounded-xl text-left font-medium transition-all duration-200 ${
                   answers[currentQuestionIndex] === option.value
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105'
+                    ? 'clay-btn clay-lavender text-white shadow-lg scale-105'
                     : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:shadow-md'
                 }`}
               >
@@ -251,7 +251,7 @@ export default function AssessmentTestPage() {
               <button
                 onClick={submitAssessment}
                 disabled={!canSubmit() || submitting}
-                className="flex-1 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-green-500 to-green-600 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="flex-1 px-6 py-3 rounded-xl font-semibold text-white clay-btn clay-mint hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {submitting ? '提交中...' : canSubmit() ? '提交评估' : `还有 ${assessment.question_count - answeredCount} 题未完成`}
               </button>
@@ -259,7 +259,7 @@ export default function AssessmentTestPage() {
               <button
                 onClick={goToNextQuestion}
                 disabled={answers[currentQuestionIndex] === -1}
-                className="flex-1 px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="flex-1 px-6 py-3 rounded-xl font-semibold text-white clay-btn clay-lavender hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 下一题
               </button>
@@ -284,7 +284,7 @@ export default function AssessmentTestPage() {
                 onClick={() => setCurrentQuestionIndex(index)}
                 className={`aspect-square rounded-lg font-medium text-sm transition-all ${
                   index === currentQuestionIndex
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-110'
+                    ? 'clay-btn clay-lavender text-white shadow-lg scale-110'
                     : answers[index] !== -1
                     ? 'bg-green-100 text-green-700 hover:bg-green-200'
                     : 'bg-gray-100 text-gray-500 hover:bg-gray-200'

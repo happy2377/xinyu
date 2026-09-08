@@ -75,7 +75,7 @@ export default function DiaryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
           <p className="mt-4 text-gray-600">加载中...</p>
@@ -85,9 +85,9 @@ export default function DiaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -98,14 +98,14 @@ export default function DiaryPage() {
             </button>
             <div className="flex items-center gap-2">
               <span className="text-2xl">📖</span>
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
                 情绪日记
               </span>
             </div>
           </div>
           <button
             onClick={() => router.push('/diary/write')}
-            className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all"
+            className="px-4 py-2 clay-btn clay-blue text-white font-semibold rounded-lg hover:shadow-lg transition-all"
           >
             ✏️ 写日记
           </button>
@@ -127,7 +127,7 @@ export default function DiaryPage() {
             <p className="text-gray-600 mb-6">还没有日记记录，开始写第一篇吧！</p>
             <button
               onClick={() => router.push('/diary/write')}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+              className="px-6 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all"
             >
               ✏️ 写下第一篇日记
             </button>
@@ -164,7 +164,7 @@ export default function DiaryPage() {
                       )}
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                      <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] to-[#a78bfa]">
                         {diary.word_count}
                       </div>
                       <div className="text-xs text-gray-500">字</div>

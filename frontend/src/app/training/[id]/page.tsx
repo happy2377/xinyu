@@ -643,7 +643,7 @@ export default function TrainingDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent" />
           <p className="mt-4 text-gray-600">加载中...</p>
@@ -655,8 +655,8 @@ export default function TrainingDetailPage() {
   if (!training) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+    <div className="min-h-screen clay-bg">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <button
             onClick={() => {
@@ -722,7 +722,7 @@ export default function TrainingDetailPage() {
                   </button>
                   <button
                     onClick={beginPlayer}
-                    className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all"
+                    className="flex-1 py-3 clay-btn clay-blue text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all"
                   >
                     准备好了，开始
                   </button>
@@ -802,7 +802,7 @@ export default function TrainingDetailPage() {
                     className={`w-24 h-24 rounded-full border-4 flex items-center justify-center text-3xl font-bold text-transparent bg-clip-text ${
                       paused
                         ? 'border-gray-300 bg-gradient-to-r from-gray-300 to-gray-400'
-                        : 'border-purple-200 bg-gradient-to-r from-blue-600 to-purple-600'
+                        : 'border-purple-200 clay-btn clay-blue'
                     }`}
                   >
                     {formatTime(remaining)}
@@ -829,7 +829,7 @@ export default function TrainingDetailPage() {
                           onClick={() => setScaleValue(i)}
                           className={`w-10 h-10 rounded-full font-semibold transition-all ${
                             scaleValue === i
-                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-110'
+                              ? 'clay-btn clay-blue text-white shadow-lg scale-110'
                               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                           }`}
                         >
@@ -840,7 +840,7 @@ export default function TrainingDetailPage() {
                     <button
                       onClick={submitStepInput}
                       disabled={scaleValue === null || aiLoading}
-                      className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                      className="w-full py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                     >
                       确定并继续
                     </button>
@@ -867,7 +867,7 @@ export default function TrainingDetailPage() {
                       <button
                         onClick={submitStepInput}
                         disabled={!stepInput.trim() || aiLoading}
-                        className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                        className="flex-1 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                       >
                         {aiLoading
                           ? 'AI 正在回应…'
@@ -986,7 +986,7 @@ export default function TrainingDetailPage() {
                       onClick={() => setMoodAfter(i)}
                       className={`w-9 h-9 rounded-full text-sm font-semibold transition-all ${
                         moodAfter === i
-                          ? 'bg-gradient-to-r from-pink-600 to-rose-600 text-white scale-110'
+                          ? 'clay-btn clay-pink text-white scale-110'
                           : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                     >
@@ -1037,7 +1037,7 @@ export default function TrainingDetailPage() {
               <button
                 onClick={submitComplete}
                 disabled={rating === 0 || submitLoading}
-                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                className="flex-1 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
               >
                 {submitLoading ? '提交中…' : '提交记录'}
               </button>
@@ -1098,7 +1098,7 @@ function IntroView({
         <div className="space-y-3">
           {training.steps.map((step, index) => (
             <div key={index} className="flex gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center font-semibold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full clay-btn clay-blue text-white flex items-center justify-center font-semibold">
                 {index + 1}
               </div>
               <div className="flex-1 pt-1 text-gray-700">
@@ -1201,7 +1201,7 @@ function IntroView({
 
       <button
         onClick={onStart}
-        className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:shadow-lg transform hover:scale-[1.01] transition-all"
+        className="w-full py-4 clay-btn clay-blue text-white text-lg font-semibold rounded-xl hover:shadow-lg transform hover:scale-[1.01] transition-all"
       >
         开始训练
       </button>

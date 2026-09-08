@@ -164,8 +164,8 @@ export default function DiaryWritePage() {
 
   if (showAIFeedback && aiFeedback) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <div className="min-h-screen clay-bg">
+        <nav className="clay-nav px-6 py-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-lg font-semibold text-gray-800">AI 反馈</div>
           </div>
@@ -247,7 +247,7 @@ export default function DiaryWritePage() {
             <div className="flex gap-4 mt-8">
               <button
                 onClick={() => router.push('/diary')}
-                className="flex-1 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+                className="flex-1 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all"
               >
                 查看日记列表
               </button>
@@ -271,9 +271,9 @@ export default function DiaryWritePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <button
             onClick={() => router.push('/diary')}
@@ -353,7 +353,7 @@ export default function DiaryWritePage() {
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                className="w-full py-4 clay-btn clay-blue text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
               >
                 {loading ? '保存中...' : '💾 保存日记'}
               </button>

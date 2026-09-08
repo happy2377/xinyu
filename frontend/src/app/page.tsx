@@ -63,19 +63,19 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航栏 */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md shadow-sm z-50">
+      <nav className="fixed top-0 w-full clay-nav z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">💕</span>
-            <span className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
               心翼 Xinyi
             </span>
           </div>
           <button
             onClick={() => router.push('/login')}
-            className="px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+            className="px-6 py-2 clay-btn clay-pink text-white rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
           >
             开始使用
           </button>
@@ -99,7 +99,7 @@ export default function LandingPage() {
             {/* CTA 按钮 */}
             <button
               onClick={() => router.push('/login')}
-              className="px-12 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xl font-bold rounded-full hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+              className="px-12 py-4 clay-btn clay-pink text-white text-xl font-bold rounded-full hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
               开始使用 →
             </button>
@@ -107,7 +107,7 @@ export default function LandingPage() {
 
           {/* 配图占位 */}
           <div className="mt-16 flex justify-center">
-            <div className="w-full max-w-2xl h-64 bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl shadow-xl flex items-center justify-center">
+            <div className="w-full max-w-2xl h-64 clay-bg rounded-3xl shadow-xl flex items-center justify-center">
               <div className="text-center">
                 <div className="text-6xl mb-4">💕</div>
                 <p className="text-gray-600 text-lg">温暖陪伴，守护心灵</p>
@@ -199,7 +199,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-pink-500 to-purple-600 rounded-3xl p-12 shadow-2xl text-white">
+          <div className="clay-btn clay-pink rounded-3xl p-12 shadow-2xl text-white">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               准备好开始你的心理健康之旅了吗？
             </h2>

@@ -299,7 +299,7 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-xl text-gray-600">加载中...</div>
       </div>
     );
@@ -310,7 +310,7 @@ export default function AnalyticsPage() {
   const yearStats = getYearStats();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-6">
+    <div className="min-h-screen clay-bg p-6">
       <div className="max-w-7xl mx-auto">
         {/* 顶部导航 */}
         <div className="flex items-center justify-between mb-8">
@@ -419,7 +419,7 @@ export default function AnalyticsPage() {
             <button
               onClick={generateWeeklyReport}
               disabled={weeklyLoading}
-              className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+              className="px-5 py-2.5 clay-btn clay-lavender text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
             >
               {weeklyLoading ? '生成中…' : weekly ? '🔄 重新生成' : '✨ 生成本周报告'}
             </button>
@@ -611,19 +611,19 @@ export default function AnalyticsPage() {
               <div className="flex gap-3 justify-center">
                 <button
                   onClick={() => router.push('/diary/write')}
-                  className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all"
+                  className="px-6 py-3 clay-btn clay-pink text-white rounded-lg hover:shadow-lg transition-all"
                 >
                   写日记
                 </button>
                 <button
                   onClick={() => router.push('/assessment')}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all"
+                  className="px-6 py-3 clay-btn clay-blue text-white rounded-lg hover:shadow-lg transition-all"
                 >
                   心理评估
                 </button>
                 <button
                   onClick={() => router.push('/training')}
-                  className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-lg hover:shadow-lg transition-all"
+                  className="px-6 py-3 clay-btn clay-mint text-white rounded-lg hover:shadow-lg transition-all"
                 >
                   心理训练
                 </button>

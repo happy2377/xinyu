@@ -83,9 +83,9 @@ export default function AssessmentHistoryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <button
             onClick={() => router.push('/assessment')}
@@ -95,7 +95,7 @@ export default function AssessmentHistoryPage() {
           </button>
           <div className="flex items-center gap-2">
             <span className="text-2xl">📜</span>
-            <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
               评估历史
             </span>
           </div>
@@ -131,7 +131,7 @@ export default function AssessmentHistoryPage() {
               onClick={() => setSelectedScale(null)}
               className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedScale === null
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                  ? 'clay-btn clay-lavender text-white shadow-lg'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -143,7 +143,7 @@ export default function AssessmentHistoryPage() {
                 onClick={() => setSelectedScale(scale)}
                 className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                   selectedScale === scale
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                    ? 'clay-btn clay-lavender text-white shadow-lg'
                     : 'bg-white text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -166,7 +166,7 @@ export default function AssessmentHistoryPage() {
             <p className="text-gray-500 text-sm mb-6">完成首次评估后，这里会显示您的历史记录</p>
             <button
               onClick={() => router.push('/assessment')}
-              className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:shadow-lg transition-all"
+              className="px-6 py-3 rounded-xl font-semibold text-white clay-btn clay-lavender hover:shadow-lg transition-all"
             >
               开始评估
             </button>

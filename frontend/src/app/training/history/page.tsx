@@ -115,7 +115,7 @@ export default function TrainingHistoryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
           <p className="mt-4 text-gray-600">加载中...</p>
@@ -125,9 +125,9 @@ export default function TrainingHistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen clay-bg">
       {/* 顶部导航 */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm px-6 py-4">
+      <nav className="clay-nav px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <button
             onClick={() => router.push('/training')}
@@ -149,7 +149,7 @@ export default function TrainingHistoryPage() {
                 <span className="text-gray-600">累计训练</span>
                 <span className="text-3xl">🏆</span>
               </div>
-              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] to-[#a78bfa]">
                 {stats.total_count}
               </div>
               <div className="text-sm text-gray-500 mt-1">次</div>
@@ -160,7 +160,7 @@ export default function TrainingHistoryPage() {
                 <span className="text-gray-600">训练时长</span>
                 <span className="text-3xl">⏱️</span>
               </div>
-              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-600">
+              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#34d399] to-[#22d3ee]">
                 {stats.total_duration}
               </div>
               <div className="text-sm text-gray-500 mt-1">分钟</div>
@@ -171,7 +171,7 @@ export default function TrainingHistoryPage() {
                 <span className="text-gray-600">最常训练</span>
                 <span className="text-3xl">⭐</span>
               </div>
-              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600">
+              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#f472b6] to-[#c084fc]">
                 {Object.entries(stats.type_distribution).sort((a, b) => b[1] - a[1])[0]?.[0] 
                   ? typeLabels[Object.entries(stats.type_distribution).sort((a, b) => b[1] - a[1])[0][0]]
                   : '暂无'}
@@ -220,7 +220,7 @@ export default function TrainingHistoryPage() {
             onClick={() => setFilterType('all')}
             className={`px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
               filterType === 'all'
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                ? 'clay-btn clay-blue text-white shadow-lg'
                 : 'bg-white text-gray-700 hover:shadow-md'
             }`}
           >
@@ -232,7 +232,7 @@ export default function TrainingHistoryPage() {
               onClick={() => setFilterType(type)}
               className={`px-4 py-2 rounded-full font-medium whitespace-nowrap transition-all ${
                 filterType === type
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  ? 'clay-btn clay-blue text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:shadow-md'
               }`}
             >
@@ -248,7 +248,7 @@ export default function TrainingHistoryPage() {
             <p className="text-gray-600">暂无训练记录</p>
             <button
               onClick={() => router.push('/training')}
-              className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+              className="mt-6 px-6 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all"
             >
               开始第一次训练
             </button>
@@ -275,7 +275,7 @@ export default function TrainingHistoryPage() {
                       <p className="text-sm text-gray-500">{formatDate(record.completed_at)}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                      <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] to-[#a78bfa]">
                         {record.duration}
                       </div>
                       <div className="text-xs text-gray-500">分钟</div>
