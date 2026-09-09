@@ -1,12 +1,12 @@
 <div align="center">
 
-<h1>💕 心翼 (XinYi) - AI 心理健康助手平台</h1>
+<h1>💕 心屿 (XinYi) - AI 心理健康助手平台</h1>
 
 </div>
 
 <div align="center">
 
-[![心翼 Logo](https://img.shields.io/badge/心翼-AI心理健康平台-blue?style=for-the-badge)](https://github.com/Ethanwhh/xinyi)
+[![心屿 Logo](https://img.shields.io/badge/心翼-AI心理健康平台-blue?style=for-the-badge)](https://github.com/Ethanwhh/xinyi)
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
@@ -20,7 +20,7 @@
 
 </div>
 
-![logo](/frontend/public/logo.png)
+
 
 ## 📖 项目简介
 
