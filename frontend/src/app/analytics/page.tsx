@@ -2,6 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  ChartBar,
+  ClipboardText,
+  CalendarBlank,
+  ArrowClockwise,
+  Sparkle,
+  BookOpen,
+  Brain,
+  PersonSimpleRun,
+  NotePencil,
+  PencilLine,
+  Barbell,
+  Timer,
+  Smiley,
+  ChartLineUp,
+} from '@phosphor-icons/react';
 
 interface DiaryItem {
   diary_date: string;
@@ -319,9 +336,17 @@ export default function AnalyticsPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={20}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
-            <h1 className="text-3xl font-bold text-gray-800">📊 数据分析</h1>
+            <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
+              <ChartBar size={30} color="#6366f1" weight="duotone" />
+              数据分析
+            </h1>
           </div>
           
           <select
@@ -338,7 +363,10 @@ export default function AnalyticsPage() {
         {/* 效果概览（参考趋势，不作诊断） */}
         {outcome && (
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">📋 效果概览</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <ClipboardText size={24} color="#8b5cf6" weight="duotone" />
+              效果概览
+            </h2>
             <p className="text-sm text-gray-600 bg-blue-50 rounded-xl px-4 py-3 mb-4">
               {outcome.summary_text}
             </p>
@@ -411,7 +439,10 @@ export default function AnalyticsPage() {
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
-              <h2 className="text-xl font-bold text-gray-800">🗓️ 我的周报</h2>
+              <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <CalendarBlank size={24} color="#ec4899" weight="duotone" />
+                我的周报
+              </h2>
               <p className="text-sm text-gray-500 mt-1">
                 汇总近 7 天日记、量表、训练与记忆，生成一篇带 AI 解读的回顾
               </p>
@@ -421,7 +452,19 @@ export default function AnalyticsPage() {
               disabled={weeklyLoading}
               className="px-5 py-2.5 clay-btn clay-lavender text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
             >
-              {weeklyLoading ? '生成中…' : weekly ? '🔄 重新生成' : '✨ 生成本周报告'}
+              {weeklyLoading ? (
+                '生成中…'
+              ) : weekly ? (
+                <>
+                  <ArrowClockwise size={20} weight="bold" className="mr-1.5" />
+                  重新生成
+                </>
+              ) : (
+                <>
+                  <Sparkle size={20} weight="fill" className="mr-1.5" />
+                  生成本周报告
+                </>
+              )}
             </button>
           </div>
 
@@ -431,24 +474,29 @@ export default function AnalyticsPage() {
                 {weekly.narrative}
               </p>
               <div className="flex flex-wrap gap-3 mt-4 text-sm text-gray-600">
-                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
-                  📝 日记 {weekly.stats.diary.count} 篇
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
+                  <BookOpen size={16} weight="fill" />
+                  日记 {weekly.stats.diary.count} 篇
                 </span>
-                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
-                  📋 量表 {weekly.stats.assessments.total} 次
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
+                  <ClipboardText size={16} weight="fill" />
+                  量表 {weekly.stats.assessments.total} 次
                 </span>
-                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
-                  🏃 训练 {weekly.stats.training.count} 次 · {weekly.stats.training.minutes} 分钟
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
+                  <PersonSimpleRun size={16} weight="fill" />
+                  训练 {weekly.stats.training.count} 次 ·{' '}
+                  {weekly.stats.training.minutes} 分钟
                 </span>
-                <span className="px-3 py-1.5 bg-gray-100 rounded-full">
-                  🧠 新记忆 {weekly.stats.new_memories_count} 条
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 rounded-full">
+                  <Brain size={16} weight="fill" />
+                  新记忆 {weekly.stats.new_memories_count} 条
                 </span>
               </div>
               <p className="text-xs text-gray-400 mt-3">{weekly.disclaimer}</p>
             </div>
           ) : (
             <p className="text-sm text-gray-400 bg-gray-50 rounded-xl p-5">
-              还没有生成过周报。点右上角按钮，心翼会把这一周的数据整理成一段温柔可读的回顾。
+              还没有生成过周报。点右上角按钮，心屿会把这一周的数据整理成一段温柔可读的回顾。
             </p>
           )}
         </div>
@@ -456,37 +504,49 @@ export default function AnalyticsPage() {
         {/* 年度核心指标 */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">📝</div>
+            <div className="flex items-center justify-center mb-2">
+              <BookOpen size={34} color="#3b82f6" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-blue-500">{yearStats.diary_count}</div>
             <div className="text-sm text-gray-600 mt-2">日记篇数</div>
           </div>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">✍️</div>
+            <div className="flex items-center justify-center mb-2">
+              <PencilLine size={34} color="#8b5cf6" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-purple-500">{yearStats.total_words.toLocaleString()}</div>
             <div className="text-sm text-gray-600 mt-2">总字数</div>
           </div>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">📋</div>
+            <div className="flex items-center justify-center mb-2">
+              <ClipboardText size={34} color="#a855f7" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-green-500">{yearStats.assessment_count}</div>
             <div className="text-sm text-gray-600 mt-2">心理评估</div>
           </div>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">🏋️</div>
+            <div className="flex items-center justify-center mb-2">
+              <Barbell size={34} color="#22c55e" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-orange-500">{yearStats.training_count}</div>
             <div className="text-sm text-gray-600 mt-2">训练次数</div>
           </div>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">⏱️</div>
+            <div className="flex items-center justify-center mb-2">
+              <Timer size={34} color="#6366f1" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-red-500">{yearStats.training_duration}</div>
             <div className="text-sm text-gray-600 mt-2">训练时长(分)</div>
           </div>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-            <div className="text-4xl mb-2">😊</div>
+            <div className="flex items-center justify-center mb-2">
+              <Smiley size={34} color="#f59e0b" weight="duotone" />
+            </div>
             <div className="text-3xl font-bold text-green-500">{yearStats.positive_ratio}%</div>
             <div className="text-sm text-gray-600 mt-2">积极占比</div>
           </div>
@@ -496,7 +556,10 @@ export default function AnalyticsPage() {
           {/* 情绪分布 */}
           {Object.keys(emotionDistribution).length > 0 && (
             <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">😊 情绪分布</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <Smiley size={24} color="#f59e0b" weight="duotone" />
+              情绪分布
+            </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {Object.entries(emotionDistribution)
                   .sort(([, a], [, b]) => b - a)
@@ -523,7 +586,10 @@ export default function AnalyticsPage() {
           {/* 情绪趋势图 */}
           {emotionTrend.length > 0 && (
             <div className="bg-white rounded-2xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">📈 情绪趋势</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <ChartLineUp size={24} color="#3b82f6" weight="duotone" />
+              情绪趋势
+            </h2>
               <div className="relative">
                 {/* 左侧标签 */}
                 <div className="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-xs text-gray-500">
@@ -605,7 +671,9 @@ export default function AnalyticsPage() {
 
           {diaries.length === 0 && assessments.length === 0 && trainings.length === 0 && (
             <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-              <div className="text-6xl mb-4">📊</div>
+            <div className="flex items-center justify-center mb-4">
+              <ChartBar size={64} color="#6366f1" weight="duotone" />
+            </div>
               <p className="text-gray-600 mb-2">暂无{selectedYear}年数据</p>
               <p className="text-sm text-gray-500 mb-4">开始使用平台功能后，这里会显示你的成长数据</p>
               <div className="flex gap-3 justify-center">

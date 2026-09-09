@@ -13,6 +13,16 @@ import {
   toSpeechText,
   type VoiceSettings,
 } from '../../../lib/voice';
+import {
+  ArrowLeft,
+  SpeakerHigh,
+  SpeakerSlash,
+  ArrowClockwise,
+  Play,
+  Pause,
+  Sparkle,
+  Lightbulb,
+} from '@phosphor-icons/react';
 
 type StepKind = 'read' | 'hold' | 'input' | 'reflect' | 'pattern';
 
@@ -671,7 +681,8 @@ export default function TrainingDetailPage() {
             }}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回
+            <ArrowLeft size={18} weight="bold" className="inline-block mr-1 align-[-2px]" />
+              返回
           </button>
           <div className="text-lg font-semibold text-gray-800">
             {training.training_name}
@@ -718,7 +729,7 @@ export default function TrainingDetailPage() {
                     }}
                     className="px-5 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
                   >
-                    🔊 再听一遍
+                    <SpeakerHigh size={18} weight="fill" className="inline-block mr-1.5 align-[-2px]" />再听一遍
                   </button>
                   <button
                     onClick={beginPlayer}
@@ -753,19 +764,19 @@ export default function TrainingDetailPage() {
                         enabled: !voiceSettings.enabled,
                       });
                     }}
-                    className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
+                    className="inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
                     title={voiceSettings.enabled ? '关闭语音' : '开启语音'}
                   >
-                    {voiceSettings.enabled ? '🔊' : '🔇'}
+                    {voiceSettings.enabled ? (<SpeakerHigh size={18} weight="fill" />) : (<SpeakerSlash size={18} weight="fill" />)}
                   </button>
                 )}
                 {currentStep.kind !== 'input' && voiceOk && (
                   <button
                     onClick={replayStep}
-                    className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
+                    className="inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 text-sm hover:bg-gray-200"
                     title="重播本步语音"
                   >
-                    ↻ 重播
+                    <ArrowClockwise size={18} weight="bold" className="inline-block mr-1 align-[-2px]" />重播
                   </button>
                 )}
               </div>
@@ -882,7 +893,7 @@ export default function TrainingDetailPage() {
                 {aiFeedback && (
                   <div className="mt-5 bg-purple-50 border border-purple-100 rounded-xl p-5">
                     <p className="text-sm font-semibold text-purple-700 mb-2">
-                      心翼的回应
+                      心屿的回应
                     </p>
                     <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                       {aiFeedback}
@@ -917,7 +928,7 @@ export default function TrainingDetailPage() {
                 }}
                 className="px-6 py-3 bg-gray-200 text-gray-800 font-semibold rounded-xl hover:bg-gray-300 transition-colors"
               >
-                {paused ? '▶️ 继续' : '⏸️ 暂停'}
+                {paused ? (<><Play size={18} weight="fill" className="inline-block mr-1 align-[-2px]" />继续</>) : (<><Pause size={18} weight="fill" className="inline-block mr-1 align-[-2px]" />暂停</>)}
               </button>
               <button
                 onClick={goBack}
@@ -957,7 +968,7 @@ export default function TrainingDetailPage() {
               summary && (
                 <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 mb-6">
                   <p className="text-sm font-semibold text-purple-700 mb-2">
-                    ✨ AI 训练总结
+                    <Sparkle size={16} weight="fill" className="inline-block mr-1 align-[-2px]" />AI 训练总结
                   </p>
                   <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                     {summary}
@@ -967,7 +978,7 @@ export default function TrainingDetailPage() {
                       onClick={() => speak(summary, voiceSettings.rate)}
                       className="mt-3 text-sm text-purple-600 hover:text-purple-800"
                     >
-                      🔊 再听一遍
+                      <SpeakerHigh size={18} weight="fill" className="inline-block mr-1.5 align-[-2px]" />再听一遍
                     </button>
                   )}
                 </div>
@@ -1132,7 +1143,7 @@ function IntroView({
 
       <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
         <div className="flex gap-2">
-          <span className="text-yellow-600">💡</span>
+          <span className="text-yellow-600 flex"><Lightbulb size={24} weight="fill" /></span>
           <div className="flex-1">
             <p className="text-sm text-yellow-800">
               <strong>建议频率：</strong>
@@ -1150,7 +1161,7 @@ function IntroView({
         <div className="bg-gray-50 rounded-xl p-4 mb-6">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-3">
-              <span className="text-lg">🔊</span>
+              <span className="text-lg flex"><SpeakerHigh size={26} weight="fill" /></span>
               <div>
                 <p className="text-sm font-semibold text-gray-700">语音引导</p>
                 <p className="text-xs text-gray-500">

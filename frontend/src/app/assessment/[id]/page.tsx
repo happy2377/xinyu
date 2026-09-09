@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { ArrowLeft } from '@phosphor-icons/react';
 
 interface Question {
   id: number;
@@ -165,7 +166,12 @@ export default function AssessmentTestPage() {
             }}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 退出
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              退出
           </button>
           <div className="text-center">
             <h1 className="text-lg font-bold text-gray-800">{assessment.display_name}</h1>

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "心翼 Xinyi - AI 心理健康陪伴助手",
+  title: "心屿 Xinyu - AI 心理健康陪伴助手",
   description: "隐私优先的本地化 AI 心理健康管理系统，提供 24/7 智能对话、心理评估、训练指导等功能",
 };
 

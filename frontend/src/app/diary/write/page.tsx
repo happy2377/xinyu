@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, FloppyDisk } from '@phosphor-icons/react';
 
 interface Emotion {
   emotion: string;
@@ -279,7 +280,12 @@ export default function DiaryWritePage() {
             onClick={() => router.push('/diary')}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回
+            <ArrowLeft
+              size={18}
+              weight="bold"
+              className="inline-block mr-1 align-[-2px]"
+            />
+            返回
           </button>
           <div className="text-lg font-semibold text-gray-800">写日记</div>
           <div className="w-16"></div>
@@ -355,7 +361,14 @@ export default function DiaryWritePage() {
                 disabled={loading}
                 className="w-full py-4 clay-btn clay-blue text-white text-lg font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
               >
-                {loading ? '保存中...' : '💾 保存日记'}
+                {loading ? (
+                  '保存中...'
+                ) : (
+                  <>
+                    <FloppyDisk size={20} weight="fill" className="mr-1.5" />
+                    保存日记
+                  </>
+                )}
               </button>
             </div>
           </div>

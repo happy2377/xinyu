@@ -17,7 +17,7 @@ load_dotenv()
 class LocalModelService:
     """本地模型服务（Ollama）"""
     
-    def __init__(self, model: str = "Ethanwhh/Qwen3-4B-xinyi"):
+    def __init__(self, model: str = "Ethanwhh/Qwen3-4B-xinyu"):
         self.model = model
         self.client = ollama.AsyncClient()
     
@@ -236,7 +236,7 @@ class ModelRouter:
     """
     
     def __init__(self):
-        self.local_service = LocalModelService(model="Ethanwhh/Qwen3-4B-xinyi")
+        self.local_service = LocalModelService(model="Ethanwhh/Qwen3-4B-xinyu")
         self.remote_service = RemoteModelService()
         # 一期采用魔搭云端单平台；设置 USE_LOCAL_MODEL=true 可恢复“隐私走本地”的原逻辑
         self.use_local = os.getenv("USE_LOCAL_MODEL", "false").lower() in ("1", "true", "yes")

@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  Scroll,
+  Tray,
+  ChartBar,
+} from '@phosphor-icons/react';
 
 interface HistoryItem {
   id: number;
@@ -91,10 +97,17 @@ export default function AssessmentHistoryPage() {
             onClick={() => router.push('/assessment')}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-2xl">📜</span>
+              <span className="text-2xl flex">
+                <Scroll size={26} color="#a855f7" weight="duotone" />
+              </span>
             <span className="text-xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
               评估历史
             </span>
@@ -161,7 +174,9 @@ export default function AssessmentHistoryPage() {
           </div>
         ) : history.length === 0 ? (
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">📭</div>
+              <div className="flex items-center justify-center mb-4">
+                <Tray size={64} color="#9ca3af" weight="duotone" />
+              </div>
             <p className="text-gray-600 text-lg mb-2">暂无评估历史</p>
             <p className="text-gray-500 text-sm mb-6">完成首次评估后，这里会显示您的历史记录</p>
             <button
@@ -202,7 +217,10 @@ export default function AssessmentHistoryPage() {
                               </span>
                             </div>
                             <div className="flex items-center gap-4 text-sm text-gray-600">
-                              <span>📊 得分: {item.total_score}</span>
+            <span className="inline-flex items-center gap-1">
+              <ChartBar size={16} weight="fill" />
+              得分: {item.total_score}
+            </span>
                               <span>⏰ {new Date(item.created_at).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</span>
                             </div>
                           </div>

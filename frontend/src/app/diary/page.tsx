@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  BookOpen,
+  NotePencil,
+} from '@phosphor-icons/react';
 
 interface DiaryItem {
   id: number;
@@ -94,10 +99,17 @@ export default function DiaryPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-2xl">📖</span>
+              <span className="text-2xl flex">
+                <BookOpen size={26} color="#ec4899" weight="duotone" />
+              </span>
               <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
                 情绪日记
               </span>
@@ -107,7 +119,8 @@ export default function DiaryPage() {
             onClick={() => router.push('/diary/write')}
             className="px-4 py-2 clay-btn clay-blue text-white font-semibold rounded-lg hover:shadow-lg transition-all"
           >
-            ✏️ 写日记
+            <NotePencil size={18} weight="fill" className="mr-1.5" />
+            写日记
           </button>
         </div>
       </nav>
@@ -123,13 +136,16 @@ export default function DiaryPage() {
         {/* 日记列表 */}
         {diaries.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-            <div className="text-6xl mb-4">📖</div>
+            <div className="flex items-center justify-center mb-4">
+              <BookOpen size={64} color="#ec4899" weight="duotone" />
+            </div>
             <p className="text-gray-600 mb-6">还没有日记记录，开始写第一篇吧！</p>
             <button
               onClick={() => router.push('/diary/write')}
               className="px-6 py-3 clay-btn clay-blue text-white font-semibold rounded-xl hover:shadow-lg transition-all"
             >
-              ✏️ 写下第一篇日记
+              <NotePencil size={20} weight="fill" className="mr-1.5" />
+              写下第一篇日记
             </button>
           </div>
         ) : (

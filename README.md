@@ -1,12 +1,12 @@
 <div align="center">
 
-<h1>💕 心翼 (XinYi) - AI 心理健康助手平台</h1>
+<h1>💕 心屿 (XinYu) - AI 心理健康助手平台</h1>
 
 </div>
 
 <div align="center">
 
-[![心翼 Logo](https://img.shields.io/badge/心翼-AI心理健康平台-blue?style=for-the-badge)](https://github.com/Ethanwhh/xinyi)
+[![心屿 Logo](https://img.shields.io/badge/心屿-AI心理健康平台-blue?style=for-the-badge)](https://github.com/Ethanwhh/xinyu)
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
@@ -24,7 +24,7 @@
 
 ## 📖 项目简介
 
-**心翼（Xinyi）** 是面向大学生用户的本地化 AI 心理健康陪伴与管理系统。系统采用**感知—评估—干预**闭环，为用户提供全天候（24/7）的情绪陪伴、心理评估、个性化训练与成长任务。项目强调数据隐私（本地化部署），并保留通过受控远端大模型（如 ModelScope / Ollama Hub）进行更复杂推理的能力。
+**心屿（Xinyu）** 是面向大学生用户的本地化 AI 心理健康陪伴与管理系统。系统采用**感知—评估—干预**闭环，为用户提供全天候（24/7）的情绪陪伴、心理评估、个性化训练与成长任务。项目强调数据隐私（本地化部署），并保留通过受控远端大模型（如 ModelScope / Ollama Hub）进行更复杂推理的能力。
 
 核心目标：
 - 为大学生提供稳定、专业、可解释的心理支持与训练引导
@@ -88,7 +88,7 @@
 - **个性化建议**：基于 AI 分析提供情绪调节建议
 - **历史记录管理**：支持查看、编辑、删除历史日记
 
-### 💕 心翼之墙模块
+### 💕 心屿之墙模块
 - **可视化日历墙**：全年 365 天日记记录一目了然
 - **三态爱心系统**：
   - ♡ 空心（未记录）
@@ -201,7 +201,7 @@ SQLite 数据库（本地存储）
 │   └─────────────────────┬───────────────────────────────┘    │
 │                         │                                    │
 │   ┌─────────────────────┴───────────────────────────────┐    │
-│   │            SQLite Database (xinyi.db)               │    │
+│   │            SQLite Database (xinyu.db)               │    │
 │   │    ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐      │    │
 │   │    │ users  │ │diaries │ │assessmt│ │training│      │    │
 │   │    └────────┘ └────────┘ └────────┘ └────────┘      │    │
@@ -232,8 +232,8 @@ SQLite 数据库（本地存储）
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/Ethanwhh/xinyi.git
-cd xinyi
+git clone https://github.com/Ethanwhh/xinyu.git
+cd xinyu
 ```
 
 #### 2. Ollama 设置
@@ -246,7 +246,7 @@ cd xinyi
 
 ```bash
 # 拉取推荐模型
-ollama pull Ethanwhh/Qwen3-4B-xinyi
+ollama pull Ethanwhh/Qwen3-4B-xinyu
 
 # 启动 Ollama 服务
 ollama serve
@@ -278,7 +278,7 @@ uv run main.py
 
 ```bash
 # 进入前端目录
-cd xinyi/frontend
+cd xinyu/frontend
 
 # 安装依赖（首次需要3-5分钟）
 npm install
@@ -298,7 +298,7 @@ npm start       # 启动生产服务器
 用户访问 http://localhost:3000
     ↓
 【首页】项目介绍页面
-    - 展示"心翼"项目简介、核心功能、设计理念
+    - 展示"心屿"项目简介、核心功能、设计理念
     - 显示"开始使用"按钮
     ↓
 点击"开始使用"按钮
@@ -314,7 +314,7 @@ npm start       # 启动生产服务器
     ├─ 2️⃣ 心理评估
     ├─ 3️⃣ 训练指导
     ├─ 4️⃣ 情绪日记
-    ├─ 5️⃣ 心翼之墙
+    ├─ 5️⃣ 心屿之墙
     └─ 6️⃣ 数据分析
     ↓
 用户点击任意板块开始使用
@@ -322,7 +322,7 @@ npm start       # 启动生产服务器
 
 ## 📸 界面预览
 
-### 心翼介绍 
+### 心屿介绍 
 > 项目简介 + 核心功能 + 设计理念
 ![项目简介](/frontend/public/introduction1.png)
 ![核心功能](/frontend/public/introduction2.png)
@@ -352,9 +352,9 @@ npm start       # 启动生产服务器
 > 智能模板引导 + AI 情绪分析 + 历史记录管理
 ![情绪日记](/frontend/public/diary.png)
 
-### 心翼之墙
+### 心屿之墙
 > 可视化日历 + 游戏化机制 + 成就徽章
-![心翼之墙](/frontend/public/growth.png)
+![心屿之墙](/frontend/public/growth.png)
 
 ### 数据分析
 > 统计看板 + 情绪分布 + 双向趋势图
@@ -362,9 +362,9 @@ npm start       # 启动生产服务器
 
 ## 📖 技术文档
 
-### [心翼大模型(Qwen3-4B-xinyi)](https://www.modelscope.cn/models/Ethanwhh/Qwen3-4B-xinyi/summary)
+### [心屿大模型(Qwen3-4B-xinyu)](https://www.modelscope.cn/models/Ethanwhh/Qwen3-4B-xinyu/summary)
 
-**智能对话** 模块的本地ollama大模型使用的是 **Qwen3-4B-xinyi** 。
+**智能对话** 模块的本地ollama大模型使用的是 **Qwen3-4B-xinyu** 。
 
 #### 模型数据
 
@@ -376,12 +376,12 @@ npm start       # 启动生产服务器
 
 模型下载方式可以参考：https://modelscope.cn/docs/models/download 。
 
-心翼项目主要是为了隐私化和本地部署，该模型已经上传 **ollama** ，大家也可以通过 **ollama** 本地部署使用，模型地址：https://ollama.com/Ethanwhh/Qwen3-4B-xinyi 。
+心屿项目主要是为了隐私化和本地部署，该模型已经上传 **ollama** ，大家也可以通过 **ollama** 本地部署使用，模型地址：https://ollama.com/Ethanwhh/Qwen3-4B-xinyu 。
 
 #### 限制声明
 
 - 本项目开源的模型基于开源基座模型微调得到，使用模型权重时，请遵循对应基座模型的模型协议：[Qwen](https://github.com/QwenLM/Qwen/blob/main/Tongyi%20Qianwen%20LICENSE%20AGREEMENT) 
-- **心翼** 是一个心理健康辅助工具，旨在帮助用户更好地理解和管理自己的情绪状态。但请注意：
+- **心屿** 是一个心理健康辅助工具，旨在帮助用户更好地理解和管理自己的情绪状态。但请注意：
 - ⚠️ 本平台 **不能** 替代专业的心理咨询和治疗
 - ⚠️ 如果您正在经历严重的心理健康问题，请及时寻求专业帮助
 - ⚠️ 评估结果仅供参考，不作为诊断依据
@@ -394,7 +394,7 @@ npm start       # 启动生产服务器
 
 ### 💬 智能对话模块技术文档
 
-智能对话模块是心翼项目的核心功能，提供**24小时在线心理陪伴服务**。通过多智能体协作和动态模型路由，实现：
+智能对话模块是心屿项目的核心功能，提供**24小时在线心理陪伴服务**。通过多智能体协作和动态模型路由，实现：
 - 🎭 **三阶段情绪引导**：从感性安慰 → 理性思考 → 问题解决
 - 🔒 **隐私保护机制**：敏感话题强制本地模型处理
 - 🧠 **智能模型路由**：复杂问题调用云端大模型
@@ -456,7 +456,7 @@ npm start       # 启动生产服务器
 │                        AI Model Layer                        │
 │  ┌───────────────────────┐      ┌──────────────────────────┐ │
 │  │  Local Model (Ollama) │      │  Cloud Model (ModelScope)│ │
-│  │ethanwhh/Qwen3-4b-xinyi│      │  Qwen3-Next-80B-A3B      │ │
+│  │ethanwhh/Qwen3-4b-xinyu│      │  Qwen3-Next-80B-A3B      │ │
 │  │  - Privacy Chat       │      │  - Complex Issues        │ │
 │  │  - Simple Consult     │      │  - Detailed Solutions    │ │
 │  │  - Fast Response      │      │  - Deep Analysis         │ │
@@ -475,7 +475,7 @@ npm start       # 启动生产服务器
 
 ### 🧠 心理评估模块技术文档
 
-心理评估模块是心翼项目的核心功能之一，提供**专业标准化的心理测评服务**。通过国际公认的心理量表，帮助用户科学评估自己的心理健康状况，并提供个性化的建议和干预方案
+心理评估模块是心屿项目的核心功能之一，提供**专业标准化的心理测评服务**。通过国际公认的心理量表，帮助用户科学评估自己的心理健康状况，并提供个性化的建议和干预方案
 - 🎯 **科学准确** - 采用国际标准化量表，确保评估的专业性和可靠性
 - 📊 **智能评分** - 自动计算总分并判断风险等级，提供详细的结果解释
 - 📈 **趋势追踪** - 记录历史评估数据，支持趋势分析和长期监测
@@ -584,7 +584,7 @@ npm start       # 启动生产服务器
 - **专业日记模板** - 5种CBT风格模板（感恩、压力释放、人际冲突等）
 - **引导式写作** - 15个深度思考问题随机展示
 - **生活维度评估** - 睡眠、饮食、运动、社交、工作效率5维度记录
-- **成长追踪联动** - 自动同步到"心翼之墙"，可视化情绪趋势
+- **成长追踪联动** - 自动同步到"心屿之墙"，可视化情绪趋势
 - **成就系统触发** - 写日记自动解锁成就（连续打卡、百日记录等）
 
 **整体架构图**：
@@ -625,16 +625,16 @@ npm start       # 启动生产服务器
 │                        AI Analysis Layer                    │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │              Ollama Local LLM                        │   │
-│  │          Qwen3-4B-xinyi (Mental Health Model)        │   │
+│  │          Qwen3-4B-xinyu (Mental Health Model)        │   │
 │  │                                                      │   │
 │  │  Fallback: Rule-based Engine                         │   │
 │  └──────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 💕 心翼之墙模块技术文档
+### 💕 心屿之墙模块技术文档
 
-心翼之墙是一个情绪可视化日历系统，将用户的日记记录转化为直观的爱心图标墙，通过连胜、翅膀收集、成就徽章等游戏化元素，激励用户持续记录和反思情绪状态。
+心屿之墙是一个情绪可视化日历系统，将用户的日记记录转化为直观的爱心图标墙，通过连胜、翅膀收集、成就徽章等游戏化元素，激励用户持续记录和反思情绪状态。
 - 📅 **年度日历墙**：按月份展示全年日记记录，一目了然
 - 💝 **三态爱心**：空心（未记录）、粉色实心（已记录）、金色翅膀（积极情绪）
 - 🔥 **连胜系统**：追踪连续记录天数，激励每日坚持
@@ -770,7 +770,7 @@ npm start       # 启动生产服务器
 
 ## ⚠️ 免责声明
 
-**心翼** 是一个心理健康辅助工具，旨在帮助用户更好地理解和管理自己的情绪状态。但请注意：
+**心屿** 是一个心理健康辅助工具，旨在帮助用户更好地理解和管理自己的情绪状态。但请注意：
 
 - ⚠️ 本平台 **不能** 替代专业的心理咨询和治疗
 - ⚠️ 如果您正在经历严重的心理健康问题，请及时寻求专业帮助
@@ -779,8 +779,8 @@ npm start       # 启动生产服务器
 
 <div align="center">
 
-**💕 心翼 · 关注心理健康，拥抱美好生活**
+**💕 心屿 · 关注心理健康，拥抱美好生活**
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Ethanwhh/xinyi&type=Date)](https://star-history.com/Ethanwhh/xinyi&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Ethanwhh/xinyu&type=Date)](https://star-history.com/Ethanwhh/xinyu&Date)
 
 </div>

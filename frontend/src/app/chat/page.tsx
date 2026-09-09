@@ -4,6 +4,15 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import {
+  ArrowLeft,
+  Robot,
+  Wrench,
+  Brain,
+  Camera,
+  ChatCenteredDots,
+  X,
+} from '@phosphor-icons/react';
 
 interface Message {
   id: number;
@@ -298,10 +307,17 @@ export default function ChatPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
           <div className="flex items-center gap-2">
-              <span className="text-2xl">🤖</span>
+              <span className="text-2xl flex">
+                <Robot size={26} color="#a855f7" weight="duotone" />
+              </span>
               <span className="text-xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
                 智能对话
               </span>
@@ -312,7 +328,12 @@ export default function ChatPage() {
               onClick={() => router.push('/agent')}
               className="px-4 py-2 text-sm text-blue-600 border border-blue-200 rounded-xl hover:bg-blue-50 transition-colors"
             >
-              🛠️ 深度分析
+              <Wrench
+                size={17}
+                weight="fill"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              深度分析
             </button>
             <button
               onClick={() => {
@@ -321,7 +342,12 @@ export default function ChatPage() {
               }}
               className="px-4 py-2 text-sm text-purple-600 border border-purple-200 rounded-xl hover:bg-purple-50 transition-colors"
             >
-              🧠 它记得你
+              <Brain
+                size={17}
+                weight="fill"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              它记得你
             </button>
             <button
               onClick={clearChat}
@@ -338,7 +364,10 @@ export default function ChatPage() {
         <div className="bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm px-4 py-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-gray-800">🧠 它记得你（长期记忆）</h3>
+              <h3 className="font-bold text-gray-800 flex items-center gap-1.5">
+                <Brain size={22} weight="fill" className="text-purple-500" />
+                它记得你（长期记忆）
+              </h3>
               <span className="text-xs text-gray-400">
                 记忆仅保存在本机；AI 对话经魔搭云端处理，仅供学习研究
               </span>
@@ -347,7 +376,7 @@ export default function ChatPage() {
               <p className="text-sm text-gray-500">加载中...</p>
             ) : memories.filter(m => m.is_active).length === 0 ? (
               <p className="text-sm text-gray-500">
-                还没有长期记忆。多和心翼聊聊、写写日记、做做评估，它会记住对你有意义的事。
+                还没有长期记忆。多和心屿聊聊、写写日记、做做评估，它会记住对你有意义的事。
               </p>
             ) : (
               <ul className="space-y-2 max-h-64 overflow-y-auto pr-2">
@@ -388,8 +417,10 @@ export default function ChatPage() {
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 && (
             <div className="text-center py-20">
-              <div className="text-6xl mb-4">💭</div>
-              <p className="text-gray-600 text-lg">我是心翼，你的 24 小时心理陪伴助手</p>
+              <div className="flex items-center justify-center mb-4">
+                <ChatCenteredDots size={72} color="#a855f7" weight="duotone" />
+              </div>
+              <p className="text-gray-600 text-lg">我是心屿，你的 24 小时心理陪伴助手</p>
               <p className="text-gray-400 text-sm mt-2">无论你遇到什么困扰，我都会倾听并陪你一起面对</p>
             </div>
           )}
@@ -459,13 +490,18 @@ export default function ChatPage() {
                 className="h-16 w-16 object-cover rounded-xl border border-gray-200"
               />
               <span className="text-sm text-gray-500 flex-1">
-                心翼会一起“看”这张图，并给出回应
+                心屿会一起“看”这张图，并给出回应
               </span>
               <button
                 onClick={() => setImageData(null)}
                 className="text-sm text-gray-400 hover:text-red-500"
               >
-                ✕ 取消
+                <X
+                  size={16}
+                  weight="bold"
+                  className="inline-block mr-0.5 align-[-2px]"
+                />
+                取消
               </button>
             </div>
           )}
@@ -481,9 +517,9 @@ export default function ChatPage() {
               onClick={() => fileInputRef.current?.click()}
               disabled={loading || isClearing}
               title="发送图片"
-              className="px-3 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
+              className="inline-flex items-center justify-center px-3 py-3 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50"
             >
-              📷
+              <Camera size={24} weight="fill" />
             </button>
             <textarea
               value={input}

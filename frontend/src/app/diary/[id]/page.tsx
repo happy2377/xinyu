@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { ArrowLeft, Trash, ArrowRight } from '@phosphor-icons/react';
 
 interface DiaryDetail {
   id: number;
@@ -140,14 +141,24 @@ export default function DiaryDetailPage() {
             onClick={() => router.push('/diary')}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回
+            <ArrowLeft
+              size={18}
+              weight="bold"
+              className="inline-block mr-1 align-[-2px]"
+            />
+            返回
           </button>
           <div className="text-lg font-semibold text-gray-800">日记详情</div>
           <button
             onClick={handleDelete}
             className="text-red-600 hover:text-red-800 transition-colors"
           >
-            🗑️ 删除
+            <Trash
+              size={18}
+              weight="fill"
+              className="inline-block mr-1 align-[-2px]"
+            />
+            删除
           </button>
         </div>
       </nav>
@@ -322,7 +333,7 @@ export default function DiaryDetailPage() {
                           }
                         }}
                       >
-                        去查看 →
+                        去查看 <ArrowRight size={16} weight="bold" />
                       </button>
                     </div>
                   ))}

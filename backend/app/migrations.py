@@ -27,7 +27,7 @@ def _backup_db(db_path: str) -> str | None:
         today = datetime.now().strftime("%Y%m%d")
         backup_dir = os.path.join(os.path.dirname(db_path), "backups")
         os.makedirs(backup_dir, exist_ok=True)
-        target = os.path.join(backup_dir, f"xinyi-{today}.db")
+        target = os.path.join(backup_dir, f"xinyu-{today}.db")
         if os.path.exists(target):
             return target
         shutil.copy2(db_path, target)

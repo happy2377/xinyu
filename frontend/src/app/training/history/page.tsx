@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  Trophy,
+  Timer,
+  Star,
+  NotePencil,
+  Sparkle,
+} from '@phosphor-icons/react';
 
 interface TrainingRecord {
   id: number;
@@ -133,7 +141,12 @@ export default function TrainingHistoryPage() {
             onClick={() => router.push('/training')}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
           </button>
           <div className="text-lg font-semibold text-gray-800">训练历史</div>
           <div className="w-16"></div>
@@ -147,7 +160,9 @@ export default function TrainingHistoryPage() {
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-600">累计训练</span>
-                <span className="text-3xl">🏆</span>
+                <span className="text-3xl flex">
+                  <Trophy size={32} color="#f59e0b" weight="duotone" />
+                </span>
               </div>
               <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#60a5fa] to-[#a78bfa]">
                 {stats.total_count}
@@ -158,7 +173,9 @@ export default function TrainingHistoryPage() {
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-600">训练时长</span>
-                <span className="text-3xl">⏱️</span>
+                <span className="text-3xl flex">
+                  <Timer size={32} color="#6366f1" weight="duotone" />
+                </span>
               </div>
               <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#34d399] to-[#22d3ee]">
                 {stats.total_duration}
@@ -169,7 +186,9 @@ export default function TrainingHistoryPage() {
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-gray-600">最常训练</span>
-                <span className="text-3xl">⭐</span>
+                <span className="text-3xl flex">
+                  <Star size={32} color="#fbbf24" weight="fill" />
+                </span>
               </div>
               <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#f472b6] to-[#c084fc]">
                 {Object.entries(stats.type_distribution).sort((a, b) => b[1] - a[1])[0]?.[0] 
@@ -244,7 +263,9 @@ export default function TrainingHistoryPage() {
         {/* 训练记录列表 */}
         {filteredRecords.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-            <div className="text-6xl mb-4">📝</div>
+              <div className="flex items-center justify-center mb-4">
+                <NotePencil size={64} color="#8b5cf6" weight="duotone" />
+              </div>
             <p className="text-gray-600">暂无训练记录</p>
             <button
               onClick={() => router.push('/training')}
@@ -302,7 +323,12 @@ export default function TrainingHistoryPage() {
                       {record.feedback.ai_summary && (
                         <div className="mt-3 bg-purple-50 rounded-lg p-3">
                           <p className="text-xs font-semibold text-purple-700 mb-1">
-                            ✨ AI 总结
+                            <Sparkle
+                              size={14}
+                              weight="fill"
+                              className="inline-block mr-1 align-[-2px]"
+                            />
+                            AI 总结
                           </p>
                           <p className="text-sm text-gray-700 whitespace-pre-wrap">
                             {record.feedback.ai_summary}

@@ -2,6 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  Robot,
+  ClipboardText,
+  Barbell,
+  BookOpen,
+  Heart,
+  ChartBar,
+  WarningCircle,
+} from '@phosphor-icons/react';
 
 interface UserInfo {
   id: number;
@@ -58,19 +67,55 @@ export default function DashboardPage() {
   };
 
   const modules = [
-    { id: 1, name: '智能对话', icon: '🤖', path: '/chat', color: 'from-blue-400 to-blue-600' },
-    { id: 2, name: '心理评估', icon: '📋', path: '/assessment', color: 'from-purple-400 to-purple-600' },
-    { id: 3, name: '训练指导', icon: '💪', path: '/training', color: 'from-green-400 to-green-600' },
-    { id: 4, name: '情绪日记', icon: '📖', path: '/diary', color: 'from-pink-400 to-pink-600' },
-    { id: 5, name: '心翼之墙', icon: '💖', path: '/growth', color: 'from-red-400 to-red-600' },
-    { id: 6, name: '数据分析', icon: '📊', path: '/analytics', color: 'from-indigo-400 to-indigo-600' },
+    {
+      id: 1,
+      name: '智能对话',
+      icon: <Robot size={30} color="#fff" weight="duotone" />,
+      path: '/chat',
+      color: 'from-blue-400 to-blue-600',
+    },
+    {
+      id: 2,
+      name: '心理评估',
+      icon: <ClipboardText size={30} color="#fff" weight="duotone" />,
+      path: '/assessment',
+      color: 'from-purple-400 to-purple-600',
+    },
+    {
+      id: 3,
+      name: '训练指导',
+      icon: <Barbell size={30} color="#fff" weight="duotone" />,
+      path: '/training',
+      color: 'from-green-400 to-green-600',
+    },
+    {
+      id: 4,
+      name: '情绪日记',
+      icon: <BookOpen size={30} color="#fff" weight="duotone" />,
+      path: '/diary',
+      color: 'from-pink-400 to-pink-600',
+    },
+    {
+      id: 5,
+      name: '心屿之墙',
+      icon: <Heart size={30} color="#fff" weight="fill" />,
+      path: '/growth',
+      color: 'from-red-400 to-red-600',
+    },
+    {
+      id: 6,
+      name: '数据分析',
+      icon: <ChartBar size={30} color="#fff" weight="duotone" />,
+      path: '/analytics',
+      color: 'from-indigo-400 to-indigo-600',
+    },
   ];
 
   if (loading) {
     return (
       <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4">💕</div>
+          <Heart size={44} color="#f472b6" weight="fill" className="mb-4" />
           <p className="text-gray-600">加载中...</p>
         </div>
       </div>
@@ -81,7 +126,12 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen clay-bg flex items-center justify-center">
         <div className="text-center">
-          <div className="text-4xl mb-4">❌</div>
+          <WarningCircle
+            size={44}
+            color="#ef4444"
+            weight="fill"
+            className="mb-4"
+          />
           <p className="text-red-600">{error}</p>
         </div>
       </div>
@@ -94,9 +144,11 @@ export default function DashboardPage() {
       <nav className="clay-nav">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">💕</span>
+            <span className="text-2xl flex">
+              <Heart size={26} color="#f472b6" weight="fill" />
+            </span>
             <span className="text-xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
-              心翼 Xinyi
+              心屿 Xinyu
             </span>
           </div>
           
@@ -139,7 +191,7 @@ export default function DashboardPage() {
               }}
               className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 p-8 text-left"
             >
-              <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${module.color} flex items-center justify-center text-3xl mb-4`}>
+              <div className={`w-16 h-16 rounded-xl bg-gradient-to-r ${module.color} flex items-center justify-center mb-4`}>
                 {module.icon}
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-2">

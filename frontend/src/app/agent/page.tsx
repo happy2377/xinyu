@@ -4,6 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import {
+  ArrowLeft,
+  Robot,
+  Wrench,
+  ChatCircleText,
+} from '@phosphor-icons/react';
 
 interface AgentMessage {
   role: 'user' | 'assistant';
@@ -78,9 +84,16 @@ export default function AgentPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
-            <span className="text-2xl">🛠️</span>
+            <span className="text-2xl flex">
+              <Wrench size={26} color="#6366f1" weight="duotone" />
+            </span>
             <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
               深度探索 Agent
             </span>
@@ -89,7 +102,12 @@ export default function AgentPage() {
             onClick={() => router.push('/chat')}
             className="px-4 py-2 text-sm text-purple-600 border border-purple-200 rounded-xl hover:bg-purple-50 transition-colors"
           >
-            💬 回到智能对话
+            <ChatCircleText
+              size={18}
+              weight="fill"
+              className="inline-block mr-1.5 align-[-2px]"
+            />
+            回到智能对话
           </button>
         </div>
       </nav>
@@ -98,7 +116,9 @@ export default function AgentPage() {
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 && (
             <div className="text-center py-16">
-              <div className="text-6xl mb-4">🤖</div>
+              <div className="flex items-center justify-center mb-4">
+                <Robot size={68} color="#8b5cf6" weight="duotone" />
+              </div>
               <p className="text-gray-700 text-lg">
                 我可以调用知识库、你的日记、量表、训练与长期记忆，做跨模块的深度分析
               </p>

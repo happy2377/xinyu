@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  Barbell,
+  MagnifyingGlass,
+} from '@phosphor-icons/react';
 
 interface Training {
   id: number;
@@ -113,10 +118,17 @@ export default function TrainingPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-2xl">💪</span>
+              <span className="text-2xl flex">
+                <Barbell size={26} color="#22c55e" weight="duotone" />
+              </span>
               <span className="text-xl font-bold bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent">
                 智能训练指导
               </span>
@@ -177,7 +189,9 @@ export default function TrainingPage() {
           </div>
         ) : trainings.length === 0 ? (
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">🔍</div>
+            <div className="flex items-center justify-center mb-4">
+              <MagnifyingGlass size={64} color="#8b5cf6" weight="duotone" />
+            </div>
             <p className="text-gray-600">暂无训练项目</p>
           </div>
         ) : (

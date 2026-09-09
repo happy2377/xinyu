@@ -10,7 +10,7 @@ from .database import get_db
 from .models import User
 
 # JWT 配置
-SECRET_KEY = "xinyi-secret-key-change-in-production"  # 生产环境请更改
+SECRET_KEY = "xinyu-secret-key-change-in-production"  # 生产环境请更改
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7天
 

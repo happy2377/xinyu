@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import {
+  ArrowLeft,
+  ChartBar,
+  NotePencil,
+  Lightbulb,
+  ChartLineUp,
+} from '@phosphor-icons/react';
 
 interface AssessmentResult {
   id: number;
@@ -124,7 +131,12 @@ export default function AssessmentResultPage() {
             onClick={() => router.push('/assessment')}
             className="text-gray-600 hover:text-gray-800 transition-colors"
           >
-            ← 返回评估列表
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回评估列表
           </button>
           <h1 className="text-lg font-bold text-gray-800">评估结果</h1>
           <button
@@ -141,7 +153,9 @@ export default function AssessmentResultPage() {
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
           {/* 量表名称 */}
           <div className="text-center mb-6">
-            <div className="text-5xl mb-3">📊</div>
+              <div className="flex items-center justify-center mb-3">
+                <ChartBar size={56} color="#8b5cf6" weight="duotone" />
+              </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{result.display_name}</h2>
             <p className="text-sm text-gray-500">
               完成时间：{new Date(result.created_at).toLocaleString('zh-CN')}
@@ -175,7 +189,10 @@ export default function AssessmentResultPage() {
 
           {/* 结果解释 */}
           <div className="bg-gray-50 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-3">📝 结果解释</h3>
+              <h3 className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <NotePencil size={22} weight="fill" />
+                结果解释
+              </h3>
             <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
               {result.interpretation}
             </p>
@@ -185,7 +202,9 @@ export default function AssessmentResultPage() {
           {result.suggestions && (
             <div className={`rounded-xl p-6 border-2 ${levelConfig.bg}`}>
               <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                <span className="text-2xl">💡</span>
+            <span className="text-2xl flex">
+              <Lightbulb size={28} color="#f59e0b" weight="fill" />
+            </span>
                 <span className={levelConfig.color}>建议与指导</span>
               </h3>
               <p className={`leading-relaxed whitespace-pre-wrap ${levelConfig.color}`}>
@@ -199,7 +218,9 @@ export default function AssessmentResultPage() {
         {trendData && trendData.count > 1 && (
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
             <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-              <span className="text-2xl">📈</span>
+            <span className="text-2xl flex">
+              <ChartLineUp size={28} color="#3b82f6" weight="fill" />
+            </span>
               历史趋势（最近 {trendData.count} 次评估）
             </h3>
 

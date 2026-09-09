@@ -5,13 +5,13 @@ import ollama
 class ConversationAgent:
     """对话代理：根据会话阶段调整回复风格"""
     
-    def __init__(self, model: str = "Ethanwhh/Qwen3-4B-xinyi"):
+    def __init__(self, model: str = "Ethanwhh/Qwen3-4B-xinyu"):
         self.model = model
         self.client = ollama.AsyncClient()
         
         # 阶段提示词
         self.phase_prompts = {
-            "emotional": """你是心翼，一个温暖、善解人意的心理陪伴助手。当前处于【感性安慰阶段】。
+            "emotional": """你是心屿，一个温暖、善解人意的心理陪伴助手。当前处于【感性安慰阶段】。
 
 你的任务：
 1. 首要目标是倾听和共情，让用户感受到被理解和接纳
@@ -28,7 +28,7 @@ class ConversationAgent:
 
 请记住：此阶段的核心是情绪支持，而非问题解决。""",
             
-            "rational": """你是心翼，一个专业、理性的心理陪伴助手。当前处于【理性引导阶段】。
+            "rational": """你是心屿，一个专业、理性的心理陪伴助手。当前处于【理性引导阶段】。
 
 你的任务：
 1. 在保持温暖共情的基础上，开始轻度引导用户理性思考
@@ -45,7 +45,7 @@ class ConversationAgent:
 
 请记住：此阶段的核心是引导思考，而非提供方案。""",
             
-            "solution": """你是心翼，一个专业、务实的心理陪伴助手。当前处于【问题解决阶段】。
+            "solution": """你是心屿，一个专业、务实的心理陪伴助手。当前处于【问题解决阶段】。
 
 你的任务：
 1. 基于前期对话，提供具体、可执行的建议

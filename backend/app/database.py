@@ -7,7 +7,7 @@ import os
 # SQLite 数据库文件路径
 DATABASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 os.makedirs(DATABASE_DIR, exist_ok=True)
-DATABASE_URL = f"sqlite:///{os.path.join(DATABASE_DIR, 'xinyi.db')}"
+DATABASE_URL = f"sqlite:///{os.path.join(DATABASE_DIR, 'xinyu.db')}"
 
 # 创建数据库引擎
 engine = create_engine(

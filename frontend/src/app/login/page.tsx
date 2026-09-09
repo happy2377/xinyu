@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, Heart, LockKey } from '@phosphor-icons/react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function LoginPage() {
         onClick={() => router.push('/')}
         className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors"
       >
-        <span className="text-xl">←</span>
+        <ArrowLeft size={22} weight="bold" />
         <span>返回首页</span>
       </button>
 
@@ -94,9 +95,11 @@ export default function LoginPage() {
           {/* Logo 和标题 */}
           <div className="text-center mb-8">
             <div className="flex justify-center items-center gap-2 mb-4">
-              <span className="text-4xl">💕</span>
+              <span className="text-4xl flex">
+                <Heart size={38} color="#f472b6" weight="fill" />
+              </span>
               <span className="text-2xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
-                心翼 Xinyi
+                心屿 Xinyu
               </span>
             </div>
             <p className="text-gray-600">
@@ -208,7 +211,9 @@ export default function LoginPage() {
           {/* 隐私提示 */}
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <div className="flex items-start gap-2">
-              <span className="text-blue-500 text-xl">🔒</span>
+              <span className="text-blue-500 text-xl flex mt-0.5">
+                <LockKey size={24} color="#3b82f6" weight="fill" />
+              </span>
               <div className="text-sm text-gray-600">
                 <p className="font-semibold text-gray-700 mb-1">隐私保护</p>
                 <p>所有数据本地存储，不会上传到云端</p>
@@ -219,7 +224,7 @@ export default function LoginPage() {
 
         {/* 底部提示 */}
         <p className="text-center text-sm text-gray-500 mt-6">
-          使用心翼即表示您同意我们的服务条款和隐私政策
+          使用心屿即表示您同意我们的服务条款和隐私政策
         </p>
       </div>
     </div>

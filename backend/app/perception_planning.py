@@ -102,7 +102,7 @@ class PerceptionPlanningModule:
         history_text = "\n".join(
             f"{m.get('role')}: {m.get('content')}" for m in recent
         )[:1200]
-        prompt = f"""你是心翼的感知判断模块。请分析用户输入，返回 JSON。
+        prompt = f"""你是心屿的感知判断模块。请分析用户输入，返回 JSON。
 
 对话历史：
 {history_text}

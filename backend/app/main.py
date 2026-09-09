@@ -29,7 +29,7 @@ run_migrations(engine, db_path=engine.url.database)
 
 # 创建 FastAPI 应用
 app = FastAPI(
-    title="心翼 Xinyi API",
+    title="心屿 Xinyu API",
     description="心理健康陪伴助手后端 API",
     version="1.0.0"
 )
@@ -79,7 +79,7 @@ app.include_router(agent.router)
 async def root():
     """API 根路径"""
     return {
-        "message": "心翼 Xinyi API",
+        "message": "心屿 Xinyu API",
         "version": "1.0.0",
         "status": "running"
     }

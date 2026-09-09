@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ArrowLeft, Heart, Trophy } from '@phosphor-icons/react';
 
 interface HeartData {
   date: string;
@@ -236,9 +237,17 @@ export default function GrowthPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={20}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
-            <h1 className="text-3xl font-bold text-gray-800">💕 心翼之墙</h1>
+            <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
+              <Heart size={30} color="#ec4899" weight="fill" />
+              心屿之墙
+            </h1>
           </div>
           
           <select
@@ -288,7 +297,12 @@ export default function GrowthPage() {
                 : 'bg-white/50 text-gray-600 hover:bg-white/80'
             }`}
           >
-            💕 爱心墙
+            <Heart
+              size={18}
+              weight="fill"
+              className="inline-block mr-1.5 align-[-2px] text-pink-500"
+            />
+            爱心墙
           </button>
           <button
             onClick={() => setActiveTab('achievements')}
@@ -298,7 +312,12 @@ export default function GrowthPage() {
                 : 'bg-white/50 text-gray-600 hover:bg-white/80'
             }`}
           >
-            🏆 成就徽章
+            <Trophy
+              size={18}
+              weight="fill"
+              className="inline-block mr-1.5 align-[-2px] text-amber-500"
+            />
+            成就徽章
           </button>
         </div>
 
@@ -391,7 +410,10 @@ export default function GrowthPage() {
         {/* 成就徽章视图 */}
         {activeTab === 'achievements' && (
         <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">🏆 成就徽章</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <Trophy size={26} color="#f59e0b" weight="fill" />
+              成就徽章
+            </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {achievements.map((achievement) => (
               <div

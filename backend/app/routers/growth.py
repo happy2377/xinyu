@@ -1,4 +1,4 @@
-"""个人成长（心翼之墙）路由"""
+"""个人成长（心屿之墙）路由"""
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from ..database import get_db
 from ..models import GrowthRecord, Achievement, Diary, User
 from ..auth import get_current_user
+from ..analytics import track
 
 router = APIRouter(prefix="/api/growth", tags=["growth"])
 
@@ -291,6 +292,20 @@ async def check_achievements(
     if new_achievements:
         db.add_all(new_achievements)
         db.commit()
+
+    # 埋点：每次触发的新成就（保持幂等，只记录 new_achievements）
+    for a in new_achievements:
+        track(
+            "achievement_unlocked",
+            user_id=current_user.id,
+            **{
+                "achievement_type": a.achievement_type,
+                "name": ACHIEVEMENT_TYPES[a.achievement_type]["name"],
+                "current_streak": current_streak,
+                "total_winged": total_winged,
+                "positive_ratio": round(positive_ratio),
+            },
+        )
     
     return {
         "new_achievements": [

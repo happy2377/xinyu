@@ -9,7 +9,7 @@ export interface VoiceSettings {
   autoSpeakAi: boolean;
 }
 
-const SETTINGS_KEY = 'xinyi_voice_settings_v1';
+const SETTINGS_KEY = 'xinyu_voice_settings_v1';
 
 export const DEFAULT_VOICE_SETTINGS: VoiceSettings = {
   enabled: true,

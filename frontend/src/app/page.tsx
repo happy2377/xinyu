@@ -2,6 +2,20 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import {
+  Robot,
+  ClipboardText,
+  Barbell,
+  BookOpen,
+  Heart,
+  ChartBar,
+  LockKey,
+  Crosshair,
+  Clock,
+  ShieldCheck,
+  HardDrive,
+  ArrowRight,
+} from '@phosphor-icons/react';
 
 export default function LandingPage() {
   const router = useRouter();
@@ -13,32 +27,32 @@ export default function LandingPage() {
 
   const features = [
     {
-      icon: '🤖',
+      icon: <Robot size={46} color="#3b82f6" weight="duotone" />,
       title: '智能对话',
       description: '24 小时情绪陪伴，倾听你的每一句心声',
     },
     {
-      icon: '📋',
+      icon: <ClipboardText size={46} color="#8b5cf6" weight="duotone" />,
       title: '心理评估',
       description: '专业心理量表，科学评估心理状态',
     },
     {
-      icon: '💪',
+      icon: <Barbell size={46} color="#22c55e" weight="duotone" />,
       title: '训练指导',
       description: '认知训练 + 沟通技巧，提升心理韧性',
     },
     {
-      icon: '📖',
+      icon: <BookOpen size={46} color="#ec4899" weight="duotone" />,
       title: '情绪日记',
       description: 'AI 智能分析，记录成长每一天',
     },
     {
-      icon: '💖',
-      title: '心翼之墙',
+      icon: <Heart size={46} color="#ef4444" weight="fill" />,
+      title: '心屿之墙',
       description: '365 天成长轨迹，见证你的蜕变',
     },
     {
-      icon: '📊',
+      icon: <ChartBar size={46} color="#6366f1" weight="duotone" />,
       title: '数据分析',
       description: '可视化仪表盘，全面了解自己',
     },
@@ -46,17 +60,17 @@ export default function LandingPage() {
 
   const principles = [
     {
-      icon: '🔒',
+      icon: <LockKey size={46} color="#14b8a6" weight="duotone" />,
       title: '隐私优先',
       description: '所有数据本地存储，不上传云端',
     },
     {
-      icon: '🎯',
+      icon: <Crosshair size={46} color="#f59e0b" weight="duotone" />,
       title: '专业支持',
       description: '基于 REBT 理性情绪行为疗法',
     },
     {
-      icon: '⏰',
+      icon: <Clock size={46} color="#3b82f6" weight="duotone" />,
       title: '随时陪伴',
       description: '7x24 小时在线，无需预约',
     },
@@ -68,9 +82,11 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full clay-nav z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">💕</span>
+            <span className="text-2xl flex">
+              <Heart size={26} color="#f472b6" weight="fill" />
+            </span>
             <span className="text-xl font-bold bg-gradient-to-r from-[#f472b6] to-[#c084fc] bg-clip-text text-transparent">
-              心翼 Xinyi
+              心屿 Xinyu
             </span>
           </div>
           <button
@@ -87,7 +103,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
-              心翼 Xinyi
+              心屿 Xinyu
             </h1>
             <p className="text-2xl md:text-3xl text-gray-600 mb-4">
               你的 24/7 AI 心理健康陪伴助手
@@ -101,7 +117,7 @@ export default function LandingPage() {
               onClick={() => router.push('/login')}
               className="px-12 py-4 clay-btn clay-pink text-white text-xl font-bold rounded-full hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
-              开始使用 →
+              开始使用 <ArrowRight size={22} weight="bold" />
             </button>
           </div>
 
@@ -109,7 +125,9 @@ export default function LandingPage() {
           <div className="mt-16 flex justify-center">
             <div className="w-full max-w-2xl h-64 clay-bg rounded-3xl shadow-xl flex items-center justify-center">
               <div className="text-center">
-                <div className="text-6xl mb-4">💕</div>
+                <div className="flex items-center justify-center mb-4">
+                  <Heart size={76} color="#f472b6" weight="fill" />
+                </div>
                 <p className="text-gray-600 text-lg">温暖陪伴，守护心灵</p>
               </div>
             </div>
@@ -134,7 +152,9 @@ export default function LandingPage() {
                 className={`bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <div className="text-5xl mb-4">{feature.icon}</div>
+                <div className="flex items-center justify-start mb-4">
+                  {feature.icon}
+                </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {feature.title}
                 </h3>
@@ -158,7 +178,9 @@ export default function LandingPage() {
                 key={index}
                 className="text-center p-8 bg-white/70 rounded-2xl backdrop-blur-sm"
               >
-                <div className="text-5xl mb-4">{principle.icon}</div>
+                <div className="flex items-center justify-center mb-4">
+                  {principle.icon}
+                </div>
                 <h3 className="text-xl font-bold text-gray-800 mb-2">
                   {principle.title}
                 </h3>
@@ -177,19 +199,27 @@ export default function LandingPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
             <div className="p-6 bg-white rounded-xl shadow-md">
-              <h4 className="font-bold text-lg text-purple-600 mb-2">🤖 本地 AI 模型</h4>
+              <h4 className="font-bold text-lg text-purple-600 mb-2 flex items-center gap-2">
+                <Robot size={22} weight="fill" /> 本地 AI 模型
+              </h4>
               <p className="text-gray-600">使用 Ollama 本地部署，保护隐私</p>
             </div>
             <div className="p-6 bg-white rounded-xl shadow-md">
-              <h4 className="font-bold text-lg text-purple-600 mb-2">🔐 双层判断逻辑</h4>
+              <h4 className="font-bold text-lg text-purple-600 mb-2 flex items-center gap-2">
+                <ShieldCheck size={22} weight="fill" /> 双层判断逻辑
+              </h4>
               <p className="text-gray-600">隐私保护 + 质量保证</p>
             </div>
             <div className="p-6 bg-white rounded-xl shadow-md">
-              <h4 className="font-bold text-lg text-purple-600 mb-2">🎯 多智能体协作</h4>
+              <h4 className="font-bold text-lg text-purple-600 mb-2 flex items-center gap-2">
+                <Crosshair size={22} weight="fill" /> 多智能体协作
+              </h4>
               <p className="text-gray-600">自研智能体系统，精准回应</p>
             </div>
             <div className="p-6 bg-white rounded-xl shadow-md">
-              <h4 className="font-bold text-lg text-purple-600 mb-2">💾 本地存储</h4>
+              <h4 className="font-bold text-lg text-purple-600 mb-2 flex items-center gap-2">
+                <HardDrive size={22} weight="fill" /> 本地存储
+              </h4>
               <p className="text-gray-600">所有数据保存在你的电脑上</p>
             </div>
           </div>
@@ -204,13 +234,13 @@ export default function LandingPage() {
               准备好开始你的心理健康之旅了吗？
             </h2>
             <p className="text-xl mb-8 opacity-90">
-              现在就体验心翼，让我们陪伴你的每一天
+              现在就体验心屿，让我们陪伴你的每一天
             </p>
             <button
               onClick={() => router.push('/login')}
               className="px-12 py-4 bg-white text-purple-600 text-xl font-bold rounded-full hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
             >
-              立即开始 →
+              立即开始 <ArrowRight size={22} weight="bold" />
             </button>
           </div>
         </div>
@@ -219,7 +249,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-8 px-6 bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto text-center text-gray-600">
-          <p className="mb-2">© 2026 心翼 Xinyi - 仅供学习研究使用</p>
+          <p className="mb-2">© 2026 心屿 Xinyu - 仅供学习研究使用</p>
           <p className="text-sm text-gray-500">
             技术栈：Next.js + FastAPI + SQLite + Ollama
           </p>

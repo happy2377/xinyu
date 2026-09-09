@@ -61,7 +61,7 @@ async def _process_image_message(
     user: User,
     db: Session,
 ) -> AsyncGenerator[dict, None]:
-    """多模态图片对话：视觉模型理解图片 → 心翼语气回应 → 写记忆。"""
+    """多模态图片对话：视觉模型理解图片 → 心屿语气回应 → 写记忆。"""
     user_text = request.message.strip() or "（发来一张图片）"
 
     # 危机优先

@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  ArrowLeft,
+  ClipboardText,
+  MagnifyingGlass,
+  NotePencil,
+  Timer,
+} from '@phosphor-icons/react';
 
 interface AssessmentTemplate {
   id: number;
@@ -83,10 +90,17 @@ export default function AssessmentPage() {
               onClick={() => router.push('/dashboard')}
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
-              ← 返回
+              <ArrowLeft
+                size={18}
+                weight="bold"
+                className="inline-block mr-1 align-[-2px]"
+              />
+              返回
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-2xl">📋</span>
+              <span className="text-2xl flex">
+                <ClipboardText size={26} color="#a855f7" weight="duotone" />
+              </span>
               <span className="text-xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
                 心理评估
               </span>
@@ -147,7 +161,9 @@ export default function AssessmentPage() {
           </div>
         ) : assessments.length === 0 ? (
           <div className="text-center py-20">
-            <div className="text-6xl mb-4">🔍</div>
+              <div className="flex items-center justify-center mb-4">
+                <MagnifyingGlass size={64} color="#8b5cf6" weight="duotone" />
+              </div>
             <p className="text-gray-600">暂无评估量表</p>
           </div>
         ) : (
@@ -182,8 +198,14 @@ export default function AssessmentPage() {
                     <div className="text-5xl mb-3">{assessment.icon}</div>
                     <h3 className="text-xl font-bold mb-2">{assessment.display_name}</h3>
                     <div className="flex items-center gap-4 text-sm opacity-90">
-                      <span>📝 {assessment.question_count} 题</span>
-                      <span>⏱️ {assessment.estimated_time} 分钟</span>
+            <span className="inline-flex items-center gap-1">
+              <NotePencil size={15} weight="fill" />
+              {assessment.question_count} 题
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Timer size={15} weight="fill" />
+              {assessment.estimated_time} 分钟
+            </span>
                     </div>
                   </div>
 
