@@ -20,7 +20,7 @@
 
 </div>
 
-![logo](/frontend/public/logo.png)
+
 
 ## 📖 项目简介
 
