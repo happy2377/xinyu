@@ -15,6 +15,7 @@ from ..schemas import (
 )
 from ..auth import get_current_user
 from ..memory_service import extract_facts_from_text
+from ..analytics import track
 
 router = APIRouter(prefix="/api/diary", tags=["diary"])
 
@@ -35,6 +36,12 @@ async def create_diary(
     ).first()
     
     if existing:
+        # 埋点：当天重复提交（帮助统计重复率）
+        track(
+            "diary_create_failed_dup",
+            user_id=current_user.id,
+            **{"err_code": 400, "reason": "dup_today"},
+        )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="当天已有日记，请使用更新接口"
@@ -91,7 +98,24 @@ async def create_diary(
     # 检查并触发新成就
     from app.routers.growth import check_achievements as check_achievements_func
     await check_achievements_func(current_user, db)
-    
+
+    # 埋点：日记创建成功（取主要情绪，不落正文）
+    main_emotion = None
+    if diary.emotions and len(diary.emotions) > 0:
+        main_emotion = diary.emotions[0].get("emotion")
+    track(
+        "diary_created",
+        user_id=current_user.id,
+        **{
+            "diary_id": diary.id,
+            "word_count": diary.word_count,
+            "writing_duration_s": diary.writing_duration,
+            "template_used": diary.template_used,
+            "main_emotion": main_emotion,
+            "emotion_valence": (diary.ai_feedback or {}).get("emotion_analysis", {}).get("emotion_valence"),  # noqa: E501
+        },
+    )
+
     return diary
 
 
@@ -401,7 +425,7 @@ async def generate_ai_feedback_with_ollama(content: str, emotions: Optional[List
         # 调用 Ollama 模型
         client = ollama.Client()
         response = client.chat(
-            model="Ethanwhh/Qwen3-4B-xinyi",
+            model="Ethanwhh/Qwen3-4B-xinyu",
             messages=[{"role": "user", "content": prompt}],
             format="json"
         )
@@ -415,6 +439,14 @@ async def generate_ai_feedback_with_ollama(content: str, emotions: Optional[List
     except Exception as e:
         # 如果 AI 分析失败，返回简单版反馈
         print(f"AI 分析失败: {str(e)}")
+        # 埋点：日记 AI 反馈降级（只记原因类型）
+        track(
+            "diary_ai_fallback",
+            **{
+                "reason": str(type(e).__name__)[:50],
+                "fallback": True,
+            },
+        )
         return generate_simple_feedback(content, emotions, life_dimensions)
 
 

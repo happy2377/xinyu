@@ -16,6 +16,7 @@ from ..schemas import (
 )
 from ..auth import get_current_user
 from ..training_guide import training_assist as run_training_assist
+from ..analytics import track
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/training", tags=["training"])
@@ -788,6 +789,18 @@ def complete_training(
     db.add(record)
     db.commit()
     db.refresh(record)
+    
+    # 埋点：训练完成
+    track(
+        "training_completed",
+        user_id=current_user.id,
+        **{
+            "training_id": template.id,
+            "training_type": template.training_type,
+            "duration_s": record.duration,
+            "completion_status": "success",
+        },
+    )
     
     # 返回记录详情
     return {

@@ -10,6 +10,8 @@ from .model_router import ModelRouter
 from .knowledge_service import hybrid_search
 from .memory_service import extract_from_turn, retrieve_memories
 from .safety import CRISIS_RESPONSE, PROMPT_CORE
+from .analytics import track
+import time as _t
 
 logger = logging.getLogger(__name__)
 
@@ -41,9 +43,17 @@ class MultiAgentCoordinator:
         :yield: 流式响应数据
         """
         # 步骤1：获取或创建对话
+        is_new_conversation = conversation_id is None
         conversation = await self._get_or_create_conversation(
             user, db, conversation_id
         )
+        # 埋点：新建会话
+        if is_new_conversation:
+            track(
+                "chat_session_started",
+                user_id=user.id,
+                **{"conversation_id": conversation.id, "is_new": True},
+            )
         
         # 步骤2：先取历史（不含本轮，避免最终消息重复当前输入）
         conversation_history = self._get_conversation_history(conversation, db)
@@ -60,10 +70,31 @@ class MultiAgentCoordinator:
         # 更新轮次
         conversation.round_count += 1
         db.commit()
+        # 埋点：用户消息
+        track(
+            "chat_message_sent",
+            user_id=user.id,
+            **{
+                "conversation_id": conversation.id,
+                "round_count": conversation.round_count,
+                "input_len": len(user_input or ""),
+            },
+        )
 
         # 步骤4：执行感知规划（双层判断 - 使用本地模型）
         perception_result = await self.perception_module.execute(
             user_input, conversation_history
+        )
+        # 埋点：感知结果
+        track(
+            "perception_result",
+            user_id=user.id,
+            **{
+                "conversation_id": conversation.id,
+                "is_privacy": bool(perception_result.get("is_privacy_issue", False)),
+                "is_complex": bool(perception_result.get("is_complex_issue", False)),
+                "intent": perception_result.get("intent", "emotional"),
+            },
         )
         
         # 步骤5：危机检测
@@ -71,6 +102,17 @@ class MultiAgentCoordinator:
             # 危机情况：返回紧急应对话术
             conversation.status = "crisis"
             db.commit()
+
+            # 埋点：危机触发（只记录计数与来源，不记录危机原文）
+            track(
+                "crisis_triggered",
+                user_id=user.id,
+                **{
+                    "conversation_id": conversation.id,
+                    "model_used": "local",
+                    "posted_hotline": True,
+                },
+            )
             
             yield {
                 "type": "crisis",
@@ -91,6 +133,7 @@ class MultiAgentCoordinator:
             return
         
         # 步骤6：阶段管理
+        _prev_phase = conversation.phase
         should_transition, new_phase = self.phase_manager.should_transition(
             conversation.phase,
             conversation.round_count,
@@ -99,6 +142,17 @@ class MultiAgentCoordinator:
         if should_transition:
             conversation.phase = new_phase
             db.commit()
+            # 埋点：阶段转换
+            track(
+                "phase_transition",
+                user_id=user.id,
+                **{
+                    "conversation_id": conversation.id,
+                    "from_phase": _prev_phase,
+                    "to_phase": new_phase,
+                    "at_round": conversation.round_count,
+                },
+            )
 
         # 步骤6.5：长期记忆 + RAG（危机已提前返回，不会走到这里）
         memories = []
@@ -119,6 +173,27 @@ class MultiAgentCoordinator:
                 logger.warning("知识库检索失败（跳过）: %s", e)
             if not rag_hits:
                 rag_no_hit = True
+            # 埋点：RAG 检索结果
+            track(
+                "rag_search",
+                user_id=user.id,
+                **{
+                    "conversation_id": conversation.id,
+                    "hits_count": len(rag_hits or []),
+                    "no_hit": rag_no_hit,
+                    "search_type": "hybrid",
+                },
+            )
+            if rag_no_hit:
+                # 埋点：RAG 无命中拒答（只记 query_len，不落原文）
+                track(
+                    "rag_no_hit_rejected",
+                    user_id=user.id,
+                    **{
+                        "conversation_id": conversation.id,
+                        "query_len": len(user_input or ""),
+                    },
+                )
         
         # 步骤7：选择模型服务并生成AI响应
         model_service = self.model_router.get_model_service(
@@ -129,7 +204,17 @@ class MultiAgentCoordinator:
             perception_result["is_privacy_issue"],
             perception_result["is_complex_issue"]
         )
-        
+        # 埋点：模型路由
+        track(
+            "model_routed",
+            user_id=user.id,
+            **{
+                "conversation_id": conversation.id,
+                "model_used": model_name,
+                "is_privacy": bool(perception_result["is_privacy_issue"]),
+                "is_complex": bool(perception_result["is_complex_issue"]),
+            },
+        )
         yield {
             "type": "metadata",
             "conversation_id": conversation.id,
@@ -206,6 +291,7 @@ class MultiAgentCoordinator:
         context_block = "\n\n".join(context_parts)
 
         full_response = ""
+        _gen_start = _t.monotonic()
         async for chunk in model_service.generate_with_prompt(
             system_prompt,
             user_input,
@@ -218,6 +304,30 @@ class MultiAgentCoordinator:
                 "type": "chunk",
                 "content": chunk
             }
+        _gen_ms = int((_t.monotonic() - _gen_start) * 1000)
+        # 埋点：LLM 生成延迟 + 对话回复完成
+        track(
+            "lm_query_latency",
+            user_id=user.id,
+            **{
+                "conversation_id": conversation.id,
+                "model_used": model_name,
+                "elapsed_ms": _gen_ms,
+                "streamed_chunks": max(1, len(full_response) // 256 + 1),
+                "reply_len": len(full_response),
+            },
+        )
+        track(
+            "ai_reply_completed",
+            user_id=user.id,
+            **{
+                "conversation_id": conversation.id,
+                "reply_len": len(full_response),
+                "agent_type": "ConversationAgent",
+                "model_used": model_name,
+                "phase": conversation.phase,
+            },
+        )
         
         # 步骤8：保存AI响应
         ai_message = Message(
