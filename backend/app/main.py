@@ -41,10 +41,12 @@ async def startup_seed_knowledge():
     from .database import SessionLocal
     from .knowledge_service import import_seed_knowledge
     from .routers.training import sync_training_templates
+    from .demo_seed import ensure_demo_data
 
     db = SessionLocal()
     try:
         sync_training_templates(db)
+        ensure_demo_data(db)
         imported = await import_seed_knowledge(db)
         if imported:
             print(f"[启动] 种子知识库导入完成：新增 {imported} 篇")

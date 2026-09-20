@@ -21,3 +21,5 @@ services:
         value: Qwen/Qwen3-Embedding-0.6B
       - key: VISION_MODEL
         value: Qwen/Qwen3-VL-8B-Instruct
+      - key: SEED_DEMO
+        value: "true"
