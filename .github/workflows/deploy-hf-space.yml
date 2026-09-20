@@ -2,16 +2,6 @@ name: Deploy to Hugging Face Space
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "backend/**"
-      - "frontend/**"
-      - "docker/**"
-      - "Dockerfile"
-      - ".dockerignore"
-      - "scripts/deploy_hf_space.py"
-      - ".github/workflows/deploy-hf-space.yml"
 
 concurrency:
   group: hf-space
