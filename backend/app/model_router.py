@@ -67,8 +67,11 @@ class RemoteModelService:
         self.model_name = os.getenv(
             "CHAT_MODEL", "Qwen/Qwen3-Next-80B-A3B-Instruct"
         )
-        # ModelScope 官方推理 API
-        self.base_url = "https://api-inference.modelscope.cn/v1/chat/completions"
+        # 支持通过 MODELSCOPE_BASE_URL 指向代理或其它兼容端点
+        base = os.getenv(
+            "MODELSCOPE_BASE_URL", "https://api-inference.modelscope.cn/v1"
+        ).rstrip("/")
+        self.base_url = f"{base}/chat/completions"
     
     async def generate_with_prompt(
         self,
