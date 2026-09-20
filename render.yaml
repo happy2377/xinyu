@@ -3,7 +3,7 @@ services:
     name: xinyu
     runtime: docker
     dockerfilePath: ./Dockerfile
-    plan: starter
+    plan: free
     healthCheckPath: /health
     autoDeploy: true
     envVars:
@@ -21,7 +21,3 @@ services:
         value: Qwen/Qwen3-Embedding-0.6B
       - key: VISION_MODEL
         value: Qwen/Qwen3-VL-8B-Instruct
-    disk:
-      name: xinyu-data
-      mountPath: /data
-      sizeGB: 1

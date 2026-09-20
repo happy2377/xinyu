@@ -16,16 +16,16 @@
 5. 部署完成后 Railway 会给出 `https://xxx.up.railway.app`，所有人可访问；
 6. 之后每次 `git push` 自动重新部署，数据在 Volume 中保留。
 
-## 方式二：Render（Docker + 持久磁盘）
+## 方式二：Render 免费版（一键 Blueprint）
 
-1. 用 GitHub 登录 Render，New → Web Service，选择本仓库；
-2. Runtime 选 Docker，Dockerfile 路径 `./Dockerfile`；
-3. 计划选择带 Persistent Disk 的实例，磁盘挂载路径 `/data`，大小 1GB 起；
-4. 环境变量同上（`DATABASE_URL=sqlite:////data/xinyu.db`）；
-5. 也可以直接用仓库根目录的 `render.yaml` Blueprint 一键创建；
-6. Health Check 路径 `/health`。
+1. 打开一键部署链接：`https://render.com/deploy?repo=https://github.com/happy2377/xinyu`；
+2. 用 GitHub 登录 Render，按提示填写 `MODELSCOPE_API_KEY`；
+3. Render 读取仓库根目录的 `render.yaml`，用 `Dockerfile` 构建单个容器（前端 + 后端）；
+4. 部署完成后得到 `https://<name>.onrender.com`，任何人可访问；
+5. Health Check 路径 `/health`，之后每次 `git push` 自动重新部署。
 
-> 注意：Render 免费实例没有持久磁盘，重启/重新部署会丢失数据，正式使用请选带磁盘的计划。
+> 免费实例的限制：15 分钟无访问会休眠，首次打开需要 30–60 秒冷启动；没有持久磁盘，
+> 重启或重新部署后 SQLite 数据会重置（演示可用，长期保存数据请升级带磁盘的计划）。
 
 ## 方式三：Vercel（前端）+ Render/Railway（后端）
 
