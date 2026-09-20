@@ -1,0 +1,35 @@
+name: Deploy to Hugging Face Space
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "docker/**"
+      - "Dockerfile"
+      - ".dockerignore"
+      - "scripts/deploy_hf_space.py"
+      - ".github/workflows/deploy-hf-space.yml"
+
+concurrency:
+  group: hf-space
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install huggingface_hub
+        run: pip install "huggingface_hub>=0.34" "httpx>=0.28"
+      - name: Deploy Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          SPACE_ID: OU13866/xinyu
+        run: python scripts/deploy_hf_space.py

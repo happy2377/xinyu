@@ -81,10 +81,10 @@ export default function TrainingHistoryPage() {
       const token = localStorage.getItem('access_token');
       
       const [recordsRes, statsRes] = await Promise.all([
-        fetch('http://127.0.0.1:8000/api/training/records', {
+        fetch('/api/training/records', {
           headers: { 'Authorization': `Bearer ${token}` },
         }),
-        fetch('http://127.0.0.1:8000/api/training/statistics', {
+        fetch('/api/training/statistics', {
           headers: { 'Authorization': `Bearer ${token}` },
         }),
       ]);

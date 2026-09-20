@@ -48,8 +48,8 @@ export default function AssessmentHistoryPage() {
     try {
       const token = localStorage.getItem('access_token');
       const url = selectedScale
-        ? `http://127.0.0.1:8000/api/assessments/history?scale_name=${selectedScale}`
-        : 'http://127.0.0.1:8000/api/assessments/history';
+        ? `/api/assessments/history?scale_name=${selectedScale}`
+        : '/api/assessments/history';
 
       const response = await fetch(url, {
         headers: {

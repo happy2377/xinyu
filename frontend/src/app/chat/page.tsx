@@ -82,7 +82,7 @@ export default function ChatPage() {
     if (!token) return;
     setLoadingMemories(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/memory', {
+      const res = await fetch('/api/memory', {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       if (res.ok) {
@@ -100,7 +100,7 @@ export default function ChatPage() {
     if (!confirm('确定删除这条记忆吗？')) return;
     const token = localStorage.getItem('access_token');
     try {
-      await fetch(`http://127.0.0.1:8000/api/memory/${id}`, {
+      await fetch(`/api/memory/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
       });
@@ -129,7 +129,7 @@ export default function ChatPage() {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/chat/send', {
+      const response = await fetch('/api/chat/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ export default function ChatPage() {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/chat/clear', {
+      const response = await fetch('/api/chat/clear', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -48,7 +48,7 @@ export default function AgentPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('access_token');
-      const res = await fetch('http://127.0.0.1:8000/api/agent/run', {
+      const res = await fetch('/api/agent/run', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

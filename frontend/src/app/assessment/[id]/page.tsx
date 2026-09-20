@@ -47,7 +47,7 @@ export default function AssessmentTestPage() {
     try {
       const token = localStorage.getItem('access_token');
       const response = await fetch(
-        `http://127.0.0.1:8000/api/assessments/${templateId}/template`,
+        `/api/assessments/${templateId}/template`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -106,7 +106,7 @@ export default function AssessmentTestPage() {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/assessments/submit', {
+      const response = await fetch('/api/assessments/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

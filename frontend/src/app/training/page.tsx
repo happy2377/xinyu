@@ -79,8 +79,8 @@ export default function TrainingPage() {
     try {
       const token = localStorage.getItem('access_token');
       const url = selectedType
-        ? `http://127.0.0.1:8000/api/training/list?training_type=${selectedType}`
-        : 'http://127.0.0.1:8000/api/training/list';
+        ? `/api/training/list?training_type=${selectedType}`
+        : '/api/training/list';
       
       const response = await fetch(url, {
         headers: {

@@ -76,7 +76,7 @@ export default function GrowthPage() {
   const fetchUserInfo = async () => {
     const token = localStorage.getItem('access_token');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/auth/me', {
+      const res = await fetch('/api/auth/me', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -97,7 +97,7 @@ export default function GrowthPage() {
     try {
       // 获取爱心墙数据
       const heartRes = await fetch(
-        `http://127.0.0.1:8000/api/growth/heart-wall?year=${selectedYear}`,
+        `/api/growth/heart-wall?year=${selectedYear}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       if (heartRes.ok) {
@@ -107,7 +107,7 @@ export default function GrowthPage() {
 
       // 获取统计数据
       const statsRes = await fetch(
-        `http://127.0.0.1:8000/api/growth/stats?year=${selectedYear}`,
+        `/api/growth/stats?year=${selectedYear}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       if (statsRes.ok) {
@@ -117,7 +117,7 @@ export default function GrowthPage() {
 
       // 先检查新成就
       await fetch(
-        'http://127.0.0.1:8000/api/growth/check-achievements',
+        '/api/growth/check-achievements',
         {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` }
@@ -126,7 +126,7 @@ export default function GrowthPage() {
 
       // 获取成就列表
       const achievementsRes = await fetch(
-        'http://127.0.0.1:8000/api/growth/achievements',
+        '/api/growth/achievements',
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       if (achievementsRes.ok) {
@@ -138,7 +138,7 @@ export default function GrowthPage() {
       const startDate = `${selectedYear}-01-01`;
       const endDate = `${selectedYear}-12-31`;
       const diariesRes = await fetch(
-        `http://127.0.0.1:8000/api/diary/list?start_date=${startDate}&end_date=${endDate}`,
+        `/api/diary/list?start_date=${startDate}&end_date=${endDate}`,
         { headers: { 'Authorization': `Bearer ${token}` } }
       );
       if (diariesRes.ok) {

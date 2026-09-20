@@ -51,8 +51,8 @@ export default function AssessmentPage() {
     try {
       const token = localStorage.getItem('access_token');
       const url = selectedCategory
-        ? `http://127.0.0.1:8000/api/assessments/list?category=${selectedCategory}`
-        : 'http://127.0.0.1:8000/api/assessments/list';
+        ? `/api/assessments/list?category=${selectedCategory}`
+        : '/api/assessments/list';
       
       const response = await fetch(url, {
         headers: {

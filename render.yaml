@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: xinyu
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: MODELSCOPE_API_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////data/xinyu.db
+      - key: MODELSCOPE_BASE_URL
+        value: https://api-inference.modelscope.cn/v1
+      - key: CHAT_MODEL
+        value: Qwen/Qwen3-Next-80B-A3B-Instruct
+      - key: EMBEDDING_MODEL
+        value: Qwen/Qwen3-Embedding-0.6B
+      - key: VISION_MODEL
+        value: Qwen/Qwen3-VL-8B-Instruct
+    disk:
+      name: xinyu-data
+      mountPath: /data
+      sizeGB: 1

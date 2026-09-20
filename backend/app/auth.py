@@ -1,4 +1,5 @@
 """认证相关工具函数"""
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -10,7 +11,7 @@ from .database import get_db
 from .models import User
 
 # JWT 配置
-SECRET_KEY = "xinyu-secret-key-change-in-production"  # 生产环境请更改
+SECRET_KEY = os.getenv("SECRET_KEY", "xinyu-secret-key-change-in-production")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7天
 

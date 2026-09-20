@@ -67,7 +67,7 @@ export default function DiaryWritePage() {
   const fetchTemplates = async () => {
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/diary/templates/list', {
+      const response = await fetch('/api/diary/templates/list', {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -83,7 +83,7 @@ export default function DiaryWritePage() {
   const fetchGuidedQuestion = async () => {
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/diary/guided-questions/today', {
+      const response = await fetch('/api/diary/guided-questions/today', {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -129,7 +129,7 @@ export default function DiaryWritePage() {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://127.0.0.1:8000/api/diary/create', {
+      const response = await fetch('/api/diary/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
